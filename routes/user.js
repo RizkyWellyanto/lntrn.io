@@ -115,18 +115,22 @@ module.exports = function (router) {
     passport.use(new FacebookStrategy({
             clientID: secrets.facebookAuth.clientID,
             clientSecret: secrets.facebookAuth.clientSecret,
-            callbackURL: secrets.facebookAuth.callbackURL
+            callbackURL: secrets.facebookAuth.callbackURL,
+            profileFields: ['id', 'emails']
         },
-
         function (token, refreshToken, profile, done) {
             // asynchronous
             process.nextTick(function () {
                 // find user based on fb id
-                User.findOne({'facebook.id': profile.id}, function (err, user) {
-                    if (err)
+                User.getUserByEmail(profile.emails[0].value, function (err, user) {
+                    console.log(JSON.stringify(user));
+
+                    if (err) {
                         return done(err);
+                    }
                     // user found
                     if (user) {
+                        console.log("user found in database");
                         return done(null, user);
                     }
                     else {
@@ -135,8 +139,7 @@ module.exports = function (router) {
 
                         newUser.facebook.id = profile.id; // set the users facebook id
                         newUser.facebook.token = token; // we will save the token that facebook provides to the user
-                        newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
-                        newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
+                        newUser.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
 
                         newUser.save(function (err) {
                             if (err)
@@ -148,22 +151,20 @@ module.exports = function (router) {
 
                 });
             });
-
         }));
 
     router.route('/auth/facebook')
         .get(passport.authenticate('facebook', {
-            'scope':'email'
+            'scope': 'email'
         }));
 
     // facebook auth will call this endpoint as a callback
     router.route('/auth/facebook/callback')
-        .get(passport.authenticate('facebook', isLoggedIn, function (req, res) {
-            res.send({
-                'message':'You are logged in via facebook'
-            });
-        }));
-
+        .get(passport.authenticate('facebook', {
+                successRedirect: '/',
+                failureRedirect: '/'
+            }
+        ));
 
     // -----------------facebook-login----------------------------
 
@@ -193,7 +194,7 @@ module.exports = function (router) {
                     'data': user
                 });
             });
-        })
+        });
 
     return router;
 };

@@ -6,8 +6,7 @@
             returns index.html
     "/posts"
         GET
-            returns random posts with num_post amount
-            if num_post is not specified just return 1 random post
+            return all posts
         POST
             push a new post to the database
             user must be logged in
@@ -26,6 +25,9 @@
     "/logout"
         GET
             logout a user
+    "/auth/facebook"
+        GET
+            calling this endpoint will automatically redirect user to facebook one click login
 
 ### How to set up lntrn.io
     npm install

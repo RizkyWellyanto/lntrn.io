@@ -4,6 +4,10 @@ var bcrypt = require('bcryptjs');
 var userSchema = new mongoose.Schema({
     email:String,
     password: String,
+    facebook:{
+        id:String,
+        token:String
+    },
     posts:[String]
 });
 
@@ -27,9 +31,14 @@ module.exports.getUserById = function (id, callback) {
     User.findById(id, callback);
 };
 
-module.exports.isValidPassword = function(pass, hash, next){
-    bcrypt.compare(pass, hash, function (err, isMatch) {
-        if(err) throw err;
-        next(null, isMatch);
-    });
+module.exports.isValidPassword = function (pass, hash, next) {
+    if(!hash){
+        next(null, false);
+    }
+    else{
+        bcrypt.compare(pass, hash, function (err, isMatch) {
+            if (err) throw err;
+            next(null, isMatch);
+        });
+    }
 };
