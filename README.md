@@ -26,3 +26,7 @@
     "/logout"
         GET
             logout a user
+
+### How to set up lntrn.io
+    npm install
+    node server
