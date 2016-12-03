@@ -7,7 +7,7 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
       		templateUrl: "./partials/login_modal.html",
       		controller: "loginModalController"
       	});
-	}
+    }
 }]);
 
 lntrnioControllers.controller("loginModalController", ["$scope", function($scope) {
@@ -15,8 +15,8 @@ lntrnioControllers.controller("loginModalController", ["$scope", function($scope
 	$scope.email = "";
 	$scope.password = "";
 	$scope.password_retype = "";
-	$scope.login_selected = "ls_lightened"
-	$scope.signup_selected = "ls_darkened"
+	$scope.login_selected = "ls_lightened";
+	$scope.signup_selected = "ls_darkened";
 
 	$scope.setLogin = function(val) {
 		$scope.isLogin = val;
@@ -26,7 +26,15 @@ lntrnioControllers.controller("loginModalController", ["$scope", function($scope
 		}
 		else {
 			$scope.login_selected = "ls_lightened";
-			$scope.signup_selected = "ls_darkened";	
+			$scope.signup_selected = "ls_darkened";
 		}
-	}
+	};
+}]);
+
+lntrnioControllers.controller("createLanternController", ["$scope", function($scope) {
+    console.log("createLanternController");
+}]);
+
+lntrnioControllers.controller("viewLanternController", ["$scope", function($scope) {
+    console.log("viewLanternController");
 }]);
