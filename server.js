@@ -3,7 +3,7 @@ var express = require("express");
 var compression = require("compression");
 var bodyParser = require("body-parser");
 var secrets = require("./config/secrets");
-var mongoose = require();
+var mongoose = require("mongoose");
 var router = express.Router();
 var app = express();
 
@@ -15,10 +15,10 @@ app.use(compression());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // static paths
-app.use('/public', express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // endpoints
-require('./routes')(app, router);
+//require('./routes')(app, router);
 
 // run the server
 var server = app.listen(process.env.PORT || 8080, function (){
