@@ -1,4 +1,4 @@
-var app = angular.module("lntrnio", ["ngRoute", "lntrnioControllers", "pathgather.popeye"]);
+var app = angular.module("lntrnio", ["ngRoute", "lntrnioControllers", "lntrnioServices", "pathgather.popeye"]);
 
 app.config(["$routeProvider", function($routeProvider) {
 	$routeProvider.
