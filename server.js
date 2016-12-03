@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, '/public')));
 
 // endpoints
-//require('./routes')(app, router);
+require('./routes')(app, router);
 
 // run the server
 var server = app.listen(process.env.PORT || 8080, function (){

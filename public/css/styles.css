@@ -1,20 +1,22 @@
 body {
 	background-color: black;
-	
+	height:100%;
 }
 
 .content_wrapper {
 	margin: 0 auto;
 	max-width: 640px;
 	position:relative;
-	height:100%;
+	height:90%;
 	padding-top: 5%;
+	overflow: hidden;
 }
 
 .login_background {
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 	background-image: url("../images/login_lanterns.jpg");
+	background-size: 100% 100%;
 }
 
 .login_button {
@@ -57,7 +59,6 @@ body {
 
 .login_wrapper {
 	position:relative;
-	top:45%;
 	padding-top: 15%;
 }
 
@@ -89,7 +90,6 @@ body {
 .title_container {
 	position:relative;
 	width: 100%;
-	top: 45%;
 	color:white;
 	font-size: 96px;
 }
@@ -98,4 +98,8 @@ body {
 .popeye-modal {
 	padding: 0 !important;
 	background-color: lightgray !important;
+}
+
+.popeye-close-modal {
+	display: none !important;
 }
