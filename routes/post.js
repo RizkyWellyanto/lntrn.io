@@ -6,22 +6,47 @@ module.exports = function (router) {
         .get(function (req, res) {
             var num_post = req.body.num_post || 1;
 
-            // get num_post random posts
-            Post.findRandom()
-                .limit(num_post)
-                .exec(function (err, posts) {
+            // get all posts
+            Post.getAllPosts(function (err, posts) {
+                if(err || posts.length == 0){
+                    res.status(400);
+                    res.send({
+                        'message':'Could not fetch any posts',
+                        'error':err
+                    })
+                }
+                else{
                     res.status(200);
                     res.send({
-                        'message':'OK',
-                        'data':posts
+                        'message': 'OK',
+                        'data': posts
                     });
+                }
+            })
+        })
+        .post(isLoggedIn,
+            function (req, res) {
+                req.checkBody('text', 'Text content is required').notEmpty();
+
+                var newPost = new Post();
+                newPost.text = req.body.text;
+                newPost.save(function (err) {
+                    if(err){
+                        res.status(400);
+                        res.send({
+                            'message':'error',
+                            'error':err
+                        });
+                    }
+                    else{
+                        res.status(201);
+                        res.send({
+                            'message':'OK',
+                            'data':newPost
+                        });
+                    }
                 });
-        })
-        .post(function (req, res) {
-            // TODO do authentication here
-
-
-        })
+            })
         .options(function (req, res) {
             res.writeHead(200);
             res.end();
@@ -29,32 +54,65 @@ module.exports = function (router) {
 
     router.route('/post/:id')
         .get(function (req, res) {
-            Post.findById(req.params.id, function(err, post){
-                if(err || !post){
+            Post.findById(req.params.id, function (err, post) {
+                if (err || !post) {
                     res.status(404);
                     res.send({
-                        'message':'Post not found',
-                        'err':err
+                        'message': 'Post not found',
+                        'err': err
                     });
                     return;
                 }
 
                 res.status(200);
                 res.send({
-                    'message':'OK',
-                    'data':post
+                    'message': 'OK',
+                    'data': post
                 });
             });
         })
-        .put(function (req, res) {
-            // TODO user might want to change text inside lantern
-        })
         .delete(function (req, res) {
-
+            Post.getPostById(req.params.id, function(err, post){
+                if(err || !post){
+                    res.status(404);
+                    res.send({
+                        'message':'Unable to get lantern'
+                    });
+                }
+                else{
+                    Post.deletePostById(req.params.id, function(err, post){
+                        if (err || !pot) {
+                            res.status(404);
+                            res.send({
+                                'message': 'Lantern failed to be deleted',
+                                'err': err
+                            });
+                        }
+                        else{
+                            res.status(200);
+                            res.send({
+                                'message': 'Lantern successfully deleted!',
+                                'data': post
+                            });
+                        }
+                    });
+                }
+            });
         });
 
     return router;
 };
 
-
-
+// ideally this should be refactored into it's own file. i'm too tired
+// connect-style funct to check whether user is logged in. can act as middleware
+var isLoggedIn = function (req, res, next) {
+    if (req.isAuthenticated()) {
+        return next();
+    }
+    else {
+        res.status(404);
+        res.send({
+            'error_msg': 'You are not logged in'
+        });
+    }
+};
