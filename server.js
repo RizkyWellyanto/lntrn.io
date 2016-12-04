@@ -49,7 +49,7 @@ app.use(expressValidator({
 }));
 
 // static paths
-app.use('/public', express.static(path.join(__dirname, '/public')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // routes
 require('./routes')(app, router);
