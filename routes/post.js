@@ -110,7 +110,7 @@ var isLoggedIn = function (req, res, next) {
         return next();
     }
     else {
-        res.status(404);
+        res.status(500);
         res.send({
             'error_msg': 'You are not logged in'
         });
