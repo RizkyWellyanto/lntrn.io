@@ -1,5 +1,5 @@
 body {
-	background-color: black;
+	background-color: dimgray;
 	height:100%;
 }
 
@@ -76,7 +76,7 @@ body {
 	background-color: darkgray;
 }
 
-.ls_lightened: {
+.ls_lightened {
 	background-color: lightgray;
 }
 
@@ -99,7 +99,6 @@ body {
 	background-color: lightgray !important;
 }
 
-<<<<<<< HEAD
 .lanternViewBackground{
     width: 100%;
     height: 100%;
@@ -120,12 +119,56 @@ body {
     /* width: 100%; */
 }
 
-.login_button.create{
-    position: relative;
-    top: -295px;
-    left: 935px;
-    margin: 0px 0px 10px 0px;
+.login_button.create {
+	position: relative;
+	top: -295px;
+	left: 935px;
+	margin: 0px 0px 10px 0px;
+}
 
 .popeye-close-modal {
 	display: none !important;
+}
+
+/* LANTERN CSS CODE */
+.box{
+	width: 62px;
+	height: 68px;
+	/*position: relative;
+    float: left;*/
+	-moz-animation: 3s ease 0s normal none infinite swingy;
+	-moz-transform-origin: center top;
+	-webkit-animation:swingy 3s infinite linear;
+	-webkit-transform-origin:top;
+}
+
+@-moz-keyframes swingy {
+	0%{-moz-transform:rotate(-8deg)}
+	50%{-moz-transform:rotate(8deg)}
+	100%{-moz-transform:rotate(-8deg)}
+}
+@-webkit-keyframes swingy{
+	0%{-webkit-transform:rotate(-8deg)}
+	50%{-webkit-transform:rotate(8deg)}
+	100%{-webkit-transform:rotate(-8deg)}
+}
+
+.lantern {
+	width:30px;
+	height:60px;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffff32+0,e5b32b+50,ff6644+100 */
+	background: #ffff32; /* Old browsers */
+	background: -moz-linear-gradient(top,  #ffff32 0%, #e5b32b 50%, #ff6644 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  #ffff32 0%,#e5b32b 50%,#ff6644 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  #ffff32 0%,#e5b32b 50%,#ff6644 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff32', endColorstr='#ff6644',GradientType=0 ); /* IE6-9 */
+}
+
+/* BOAT CSS CODE */
+#boat {
+	display: block;
+	margin: auto;
+	transform: translateY(80%);
 }
