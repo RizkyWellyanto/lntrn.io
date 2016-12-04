@@ -21,7 +21,7 @@ module.exports = function (router) {
             var errors = req.validationErrors();
 
             if (errors) {
-                res.status(404);
+                res.status();
                 res.send({
                     'message': 'Error!',
                     'error': errors
@@ -35,7 +35,7 @@ module.exports = function (router) {
 
                 User.getUserByEmail(email, function (err, user) {
                     if (err) {
-                        res.status(404);
+                        res.status(500);
                         res.send({
                             'message': 'Error!',
                             'error': errors
@@ -54,7 +54,7 @@ module.exports = function (router) {
                         });
                     }
                     else {
-                        res.status(404);
+                        res.status(500);
                         res.send({
                             'message': 'Email is already taken',
                             'error': errors
@@ -62,6 +62,10 @@ module.exports = function (router) {
                     }
                 });
             }
+        })
+        .options(function(req, res) {
+            res.writeHead(200);
+            res.end();
         });
 
     passport.serializeUser(function (user, done) {
@@ -107,7 +111,11 @@ module.exports = function (router) {
                 res.send({
                     'message': 'User logged in'
                 });
-            });
+            })
+        .options(function(req, res) {
+            res.writeHead(200);
+            res.end();
+        });
     // -----------------local-login-------------------------------
 
 
@@ -205,7 +213,7 @@ var isLoggedIn = function (req, res, next) {
         return next();
     }
     else {
-        res.status(404);
+        res.status(500);
         res.send({
             'error_msg': 'You are not logged in'
         });
