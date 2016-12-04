@@ -42,7 +42,7 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
     }
 }]);
 
-lntrnioControllers.controller("loginModalController", ["$scope", function($scope) {
+lntrnioControllers.controller("loginModalController", ["$scope", "User", function($scope, User) {
 	$scope.isLogin = true;
 	$scope.email = "";
 	$scope.password = "";
@@ -52,6 +52,9 @@ lntrnioControllers.controller("loginModalController", ["$scope", function($scope
 
 	$scope.setLogin = function(val) {
 		$scope.isLogin = val;
+		$scope.email = "";
+		$scope.password = "";
+		$scope.password_retype = "";
 		if (!val) {
 			$scope.login_selected = "ls_darkened";
 			$scope.signup_selected = "ls_lightened";
@@ -61,6 +64,19 @@ lntrnioControllers.controller("loginModalController", ["$scope", function($scope
 			$scope.signup_selected = "ls_darkened";
 		}
 	};
+
+	$scope.doLogin = function() {
+		User.login($scope.email, $scope.password).success(function(res) {
+			console.log("login result", res);
+		});
+	}
+
+	$scope.doSignup = function() {
+		User.signup($scope.email, $scope.password, $scope.password_retype)
+			.success(function(res) {
+				console.log("signup result", res);
+			})
+	}
 }]);
 
 lntrnioControllers.controller("mainController", ["$scope", function($scope) {
