@@ -5,7 +5,8 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
 		console.log("loading Modal");
 		var modal = Popeye.openModal({
       		templateUrl: "./partials/login_modal.html",
-      		controller: "loginModalController"
+      		controller: "loginModalController",
+      		modalClass: "demo-modal small"
       	});
     }
 }]);
