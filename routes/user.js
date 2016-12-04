@@ -11,6 +11,7 @@ module.exports = function (router) {
             var email = req.body.email;
             var password = req.body.password;
             var password2 = req.body.password2;
+            
 
             // validations
             req.checkBody('email', 'Email is required').notEmpty();
@@ -21,7 +22,7 @@ module.exports = function (router) {
             var errors = req.validationErrors();
 
             if (errors) {
-                res.status();
+                res.status(500);
                 res.send({
                     'message': 'Error!',
                     'error': errors

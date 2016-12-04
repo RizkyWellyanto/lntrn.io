@@ -49,12 +49,16 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 	$scope.password_retype = "";
 	$scope.login_selected = "ls_lightened";
 	$scope.signup_selected = "ls_darkened";
+	$scope.email_error_msg = "";
+	$scope.pw_error_msg = "";
+	$scope.error_msg = "";
 
 	$scope.setLogin = function(val) {
 		$scope.isLogin = val;
 		$scope.email = "";
 		$scope.password = "";
 		$scope.password_retype = "";
+		$scope.error_msg = "";
 		if (!val) {
 			$scope.login_selected = "ls_darkened";
 			$scope.signup_selected = "ls_lightened";
@@ -66,16 +70,34 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 	};
 
 	$scope.doLogin = function() {
+		if ($scope.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/) == null) {
+			$scope.error_msg = "Invalid email";
+			return;
+		}
 		User.login($scope.email, $scope.password).success(function(res) {
 			console.log("login result", res);
+			$scope.error_msg = "";
+		}).error(function(res) {
+			$scope.error_msg = res.message || "Couldn't validate user";
 		});
 	}
 
 	$scope.doSignup = function() {
+		if ($scope.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/) == null) {
+			$scope.error_msg = "Invalid email";
+			return;
+		}
+		if ($scope.password != $scope.password_retype) {
+			$scope.error_msg = "Passwords don't match";
+			return;
+		}
 		User.signup($scope.email, $scope.password, $scope.password_retype)
 			.success(function(res) {
 				console.log("signup result", res);
-			})
+				$scope.error_msg = "";
+			}).error(function(res) {
+				$scope.error_msg = res.message;
+			});
 	}
 }]);
 

@@ -20,7 +20,6 @@ lntrnioServices.factory("User", function($http) {
 				"email": email,
 				"password": password
 			};
-			console.log(postData)
 			return $http({
 			    method: 'POST',
 			    url: "./api/login",
