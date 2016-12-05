@@ -106,12 +106,15 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", function($sc
     // automatic GET request with updated parameters of list of lantern IDs to exclude
     // update request everytime a user reads a lantern to store it in their history (jsut append)
 
-	$scope.request = {read: ["world", "hello", "foo", "bar", "what", "kek", "totally"], qty: 6};
+	$scope.read = []; // array of posts read so far. needs at least one element so it doesn't blow up.
+
+	$scope.request = {read: $scope.read, qty: 20};
 	Posts.get($scope.request).success(function(res) {
 		var posts = res.data;
 		for (var i = 0; i< posts.length; i++) {
 			console.log(posts[i].text);
 		}
+		console.log(posts.length);
 	}).error(function(err) {
 		console.log(err);
 	});
