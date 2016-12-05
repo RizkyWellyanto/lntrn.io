@@ -32,8 +32,8 @@ lntrnioServices.factory("User", function($http) {
 
 lntrnioServices.factory("Posts", function($http) {
 	return {
-		get : function() {
-			return $http.get("./api/posts");
+		get : function(parameters) {
+			return $http.get("./api/posts", {params: parameters});
 		}
 	}
 });

@@ -4,10 +4,7 @@ module.exports = function (router) {
 
     router.route('/posts')
         .get(function (req, res) {
-            var num_post = req.body.num_post || 1;
-
-            // get all posts
-            Post.getAllPosts(function (err, posts) {
+            Post.getRandomPosts(req.query, function (err, posts) {
                 if(err || posts.length == 0){
                     res.status(400);
                     res.send({
