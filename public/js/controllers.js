@@ -102,27 +102,14 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 }]);
 
 lntrnioControllers.controller("mainController", ["$scope", "Posts", function($scope, Posts) {
-    // TODO:
-    // automatic GET request with updated parameters of list of lantern IDs to exclude
-    // update request everytime a user reads a lantern to store it in their history (jsut append)
-
-	$scope.read = []; // array of posts read so far. needs at least one element so it doesn't blow up.
-
-	$scope.request = {read: $scope.read, qty: 20};
-	Posts.get($scope.request).success(function(res) {
-		var posts = res.data;
-		for (var i = 0; i< posts.length; i++) {
-			console.log(posts[i].text);
-		}
-		console.log(posts.length);
-	}).error(function(err) {
-		console.log(err);
-	});
+	// TODO:
+	// automatic GET request with updated parameters of list of lantern IDs to exclude
+	// update request everytime a user reads a lantern to store it in their history (jsut append)
 
 	// lantern create
-	$scope.lantern = function(x, y) {
-		var xpos = x || parseInt(Math.random() * ($(window).width() - 124) + 62);
-		var ypos = y || parseInt(Math.random() * ($(window).height() - 136) + 68);
+	$scope.lantern = function(post) {
+		var xpos = parseInt(Math.random() * ($(window).width() - 124) + 62);
+		var ypos = parseInt(Math.random() * ($(window).height() - 136) + 68);
 
 		// create the lantern div
 		var lant = document.createElement("div");
@@ -137,10 +124,37 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", function($sc
 
 		// lantern click -> dim and post display (change to view partial)
 		lant.addEventListener("click", function(t) {
-			console.log(this);
 			$(this).find("#lantern").attr("filter", "url(#darken)");
+
 		});
 	};
+
+	// function that gets lanterns with a request object (string array of IDs, quantity desired) and sets $scope.result
+	$scope.acquire = function (request) {
+		Posts.get(request).success(function (res) {
+			var posts = res.data;
+			for (var i = 0; i < posts.length; i++) {
+				$scope.lantern(posts[i]);
+
+			}
+
+		}).error(function (err) {
+			console.log(err);
+		});
+	};
+
+
+	$scope.read = []; // array of posts read so far. needs at least one element so it doesn't blow up.
+	$scope.request = {read: $scope.read, qty: 10};
+	$scope.result = [];
+
+	// always call on first page load to populate with lanterns
+	$scope.acquire($scope.request);
+
+	$scope.$watch('result', function(newRes) {
+		console.log(newRes);
+	});
+
 
 	// TweenMax init flicker effect of lantern
 	TweenMax.staggerTo('.flicker', 2.8, {
