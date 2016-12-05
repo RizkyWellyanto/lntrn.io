@@ -6,8 +6,7 @@ var SVG_lantern = '\
             <feComponentTransfer>\
                 <feFuncR type="linear" slope="0.3"/>\
                 <feFuncG type="linear" slope="0.3"/>\
-                <feFuncB type="linear" slope="0.3"/>\
-            </feComponentTransfer>\
+                <feFuncB type="linear" slope="0.3"/>\ </feComponentTransfer>\
             </filter>\
             <radialGradient id="lanternGrad" cx="33.4551" cy="63.1367" r="59.6359" gradientUnits="userSpaceOnUse">\
                 <stop offset="0"            style="stop-color:#FCFFDD"/>\
@@ -82,7 +81,7 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthSe
 			$scope.error_msg = res.message || "Couldn't validate user";
 			AuthServices.setUserId("");
 		});
-	}
+	};
 
 	$scope.doSignup = function() {
 		if ($scope.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/) == null) {
@@ -100,7 +99,7 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthSe
 			}).error(function(res) {
 				$scope.error_msg = res.message;
 			});
-	}
+	};
 }]);
 
 lntrnioControllers.controller("mainController", ["$scope", function($scope) {
@@ -149,8 +148,19 @@ lntrnioControllers.controller("mainController", ["$scope", function($scope) {
 }]);
 
 
-lntrnioControllers.controller("createLanternController", ["$scope", function($scope) {
+lntrnioControllers.controller("createLanternController", ["$scope", "Posts", function($scope, Posts) {
     console.log("createLanternController");
+    $scope.addPost = function(){
+        // console.log("hi");
+        // console.log("$scope.postText", $scope.postText);
+        // console.log("why not?");
+		    Posts.addPost($scope.postText, $scope.password).success(function(res) {
+			      console.log("login result", res);
+			      $scope.error_msg = "";
+		    }).error(function(res) {
+			      $scope.error_msg = res.message || "Couldn't validate user";
+		    });
+    };
 }]);
 
 lntrnioControllers.controller("viewLanternController", ["$scope", function($scope) {

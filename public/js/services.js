@@ -27,7 +27,7 @@ lntrnioServices.factory("User", function($http) {
 			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			});
 		}
-	}
+	};
 });
 
 lntrnioServices.factory("Posts", function($http) {
@@ -48,4 +48,4 @@ lntrnioServices.factory("AuthServices", function() {
 			userId = value;
 		}
 	}
-})
+});
