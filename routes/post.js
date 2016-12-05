@@ -13,7 +13,7 @@ module.exports = function (router) {
                     res.send({
                         'message':'Could not fetch any posts',
                         'error':err
-                    })
+                    });
                 }
                 else{
                     res.status(200);
@@ -22,7 +22,7 @@ module.exports = function (router) {
                         'data': posts
                     });
                 }
-            })
+            });
         })
         .post(isLoggedIn,
             function (req, res) {

@@ -27,13 +27,20 @@ lntrnioServices.factory("User", function($http) {
 			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			});
 		}
-	}
+	};
 });
 
 lntrnioServices.factory("Posts", function($http) {
 	return {
 		get : function() {
 			return $http.get("./api/posts");
-		}
-	}
+		},
+      // post: function(postText, UserId) {
+    post: function(postText) {
+        return $http({
+            // method: 'POST',
+            // url: "./api/",
+        }); //.post("./api/posts");
+    }
+	};
 });
