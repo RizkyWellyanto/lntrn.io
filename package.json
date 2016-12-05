@@ -1,0 +1,34 @@
+{
+  "name": "lntrn.io",
+  "version": "1.0.0",
+  "description": "### API docs     \"/\"         GET             returns index.html     \"/posts\"         GET             returns random posts with num_post amount             if num_post is not specified just return 1 random post         POST             push a new post to the database             user must be logged in             update the user's post array     \"/post:id\"         PUT             update a lantern         DELETE             delete the lantern, update the user's post array     \"/user/:id\"         GET             get a specific user, must be authenticated     \"/login\"         POST             params are username and password     \"/logout\"         GET             logout a user",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RizkyWellyanto/lntrn.io.git"
+  },
+  "author": "Nihar, Brandon, Rizky, Ismael",
+  "license": "MIT?",
+  "bugs": {
+    "url": "https://github.com/RizkyWellyanto/lntrn.io/issues"
+  },
+  "homepage": "https://github.com/RizkyWellyanto/lntrn.io#readme",
+  "dependencies": {
+    "angular-color-picker": "^1.0.10",
+    "bcryptjs": "^2.3.0",
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "express-validator": "^3.0.0",
+    "mongoose": "^4.7.1",
+    "nodemon": "^1.11.0",
+    "passport": "^0.3.2",
+    "passport-facebook": "^2.1.1",
+    "passport-local": "^1.0.0"
+  }
+}

@@ -4,13 +4,16 @@ module.exports = function (router) {
 
     router.route('/posts')
         .get(function (req, res) {
-            Post.getRandomPosts(req.query, function (err, posts) {
+            var num_post = req.body.num_post || 1;
+
+            // get all posts
+            Post.getAllPosts(function (err, posts) {
                 if(err || posts.length == 0){
                     res.status(400);
                     res.send({
                         'message':'Could not fetch any posts',
                         'error':err
-                    })
+                    });
                 }
                 else{
                     res.status(200);
@@ -19,7 +22,7 @@ module.exports = function (router) {
                         'data': posts
                     });
                 }
-            })
+            });
         })
         .post(isLoggedIn,
             function (req, res) {
