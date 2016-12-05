@@ -112,7 +112,7 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", function($sc
 		var ypos = parseInt(Math.random() * ($(window).height() - 136) + 68);
 
 		// create the lantern div
-		var lant = document.createElement("div");
+		var lant = document.createElement("a");
 		lant.innerHTML = SVG_lantern;
 		lant.style.position = "absolute";
 		lant.style.left = xpos + 'px';
@@ -125,7 +125,8 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", function($sc
 		// lantern click -> dim and post display (change to view partial)
 		lant.addEventListener("click", function(t) {
 			$(this).find("#lantern").attr("filter", "url(#darken)");
-
+			$(this).attr("href", "./api/post/" + post._id);
+			console.log(this);
 		});
 	};
 
