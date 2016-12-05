@@ -145,18 +145,18 @@ lntrnioControllers.controller("mainController", ["$scope", function($scope) {
 
 }]);
 
-
 lntrnioControllers.controller("createLanternController", ["$scope", "Posts", function($scope, Posts) {
     console.log("createLanternController");
     $scope.addPost = function(){
         // console.log("hi");
-        // console.log("$scope.postText", $scope.postText);
+        console.log("$scope.postText", $scope.postText);
+        $scope.password = "";
         // console.log("why not?");
-		    Posts.addPost($scope.postText, $scope.password).success(function(res) {
-			      console.log("login result", res);
+		    Posts.addPost($scope.postText).success(function(res) {
+			      console.log("Post Added", res);
 			      $scope.error_msg = "";
 		    }).error(function(res) {
-			      $scope.error_msg = res.message || "Couldn't validate user";
+			      $scope.error_msg = res.message || "Could Not Add Post";
 		    });
     };
 }]);

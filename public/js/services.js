@@ -9,8 +9,7 @@ lntrnioServices.factory("User", function($http) {
 				"password2": retype
 			};
 			return $http({
-			    method: 'POST',
-			    url: "./api/register",
+			    method: 'POST', url: "./api/register",
 			    data: $.param(postData),
 			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			});
@@ -36,11 +35,18 @@ lntrnioServices.factory("Posts", function($http) {
 			return $http.get("./api/posts");
 		},
       // post: function(postText, UserId) {
-    post: function(postText) {
+    addPost: function(postText) {
+        // console.log("adding post");
+        var postData = {
+            "postText" : postText
+        };
+        console.log("postText: ", postText);
         return $http({
-            // method: 'POST',
-            // url: "./api/",
-        }); //.post("./api/posts");
+            method: 'POST', 
+            url: "./api/posts",
+            data: $.param(postData),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+          }); 
     }
 	};
 });

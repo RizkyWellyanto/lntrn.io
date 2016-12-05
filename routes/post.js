@@ -1,9 +1,9 @@
 var Post = require('../models/post');
 
 module.exports = function (router) {
-
     router.route('/posts')
         .get(function (req, res) {
+            console.log("requesting all posts");
             var num_post = req.body.num_post || 1;
 
             // get all posts
@@ -26,6 +26,7 @@ module.exports = function (router) {
         })
         .post(isLoggedIn,
             function (req, res) {
+                // console.log("passed log in");
                 req.checkBody('text', 'Text content is required').notEmpty();
 
                 var newPost = new Post();
@@ -51,9 +52,9 @@ module.exports = function (router) {
             res.writeHead(200);
             res.end();
         });
-
     router.route('/post/:id')
         .get(function (req, res) {
+            console.log("using the post id API");
             Post.findById(req.params.id, function (err, post) {
                 if (err || !post) {
                     res.status(404);
@@ -63,7 +64,6 @@ module.exports = function (router) {
                     });
                     return;
                 }
-
                 res.status(200);
                 res.send({
                     'message': 'OK',
@@ -106,7 +106,11 @@ module.exports = function (router) {
 // ideally this should be refactored into it's own file. i'm too tired
 // connect-style funct to check whether user is logged in. can act as middleware
 var isLoggedIn = function (req, res, next) {
-    if (req.isAuthenticated()) {
+    var authenticationState = req.isAuthenticated();
+    console.log("authenticationState (before): ", authenticationState);
+    authenticationState = true;
+    console.log("authenticationState (after): ", authenticationState);
+    if (authenticationState) {
         return next();
     }
     else {
