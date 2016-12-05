@@ -42,7 +42,7 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
     }
 }]);
 
-lntrnioControllers.controller("loginModalController", ["$scope", "User", function($scope, User) {
+lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthServices", function($scope, User, AuthServices) {
 	$scope.isLogin = true;
 	$scope.email = "";
 	$scope.password = "";
@@ -77,8 +77,10 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 		User.login($scope.email, $scope.password).success(function(res) {
 			console.log("login result", res);
 			$scope.error_msg = "";
+			AuthServices.setUserId(res.data._id);
 		}).error(function(res) {
 			$scope.error_msg = res.message || "Couldn't validate user";
+			AuthServices.setUserId("");
 		});
 	}
 

@@ -37,3 +37,15 @@ lntrnioServices.factory("Posts", function($http) {
 		}
 	}
 });
+
+lntrnioServices.factory("AuthServices", function() {
+	var userId = null;
+	return  {
+		getUserId : function() {
+			return userId;
+		},
+		setUserId : function(value) {
+			userId = value;
+		}
+	}
+})
