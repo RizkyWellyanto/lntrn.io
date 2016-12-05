@@ -35,11 +35,11 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
 	$scope.load_login_modal = function() {
 		console.log("loading Modal");
 		var modal = Popeye.openModal({
-      		templateUrl: "./partials/login_modal.html",
-      		controller: "loginModalController",
-      		modalClass: "demo-modal small"
-      	});
-    }
+			templateUrl: "./partials/login_modal.html",
+			controller: "loginModalController",
+			modalClass: "demo-modal small"
+		});
+	}
 }]);
 
 lntrnioControllers.controller("loginModalController", ["$scope", "User", function($scope, User) {
@@ -96,61 +96,77 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 				console.log("signup result", res);
 				$scope.error_msg = "";
 			}).error(function(res) {
-				$scope.error_msg = res.message;
-			});
+			$scope.error_msg = res.message;
+		});
 	}
 }]);
 
-lntrnioControllers.controller("mainController", ["$scope", function($scope) {
-	console.log("mainController");
+lntrnioControllers.controller("mainController", ["$scope", "Posts", function($scope, Posts) {
+    // TODO:
+    // automatic GET request with updated parameters of list of lantern IDs to exclude
+    // update request everytime a user reads a lantern to store it in their history (jsut append)
 
-    $scope.lantern = function(x, y) {
-        var xpos = x || parseInt(Math.random() * ($(window).width() - 124) + 62);
-        var ypos = y || parseInt(Math.random() * ($(window).height() - 136) + 68);
+	$scope.request = {read: ["world", "hello", "foo", "bar", "what", "kek", "totally"], qty: 6};
+	Posts.get($scope.request).success(function(res) {
+		var posts = res.data;
+		for (var i = 0; i< posts.length; i++) {
+			console.log(posts[i].text);
+		}
+	}).error(function(err) {
+		console.log(err);
+	});
 
-        var lant = document.createElement("div");
-        lant.innerHTML = SVG_lantern;
-        lant.style.position = "absolute";
-        lant.style.left = xpos + 'px';
-        lant.style.top = ypos + 'px';
-        $("#mainpage").append(lant);
-        lant.classList.add("box");
+	// lantern create
+	$scope.lantern = function(x, y) {
+		var xpos = x || parseInt(Math.random() * ($(window).width() - 124) + 62);
+		var ypos = y || parseInt(Math.random() * ($(window).height() - 136) + 68);
 
-        // lantern click -> dim and post display (change to view partial)
-        lant.addEventListener("click", function(t) {
-            console.log(this);
-            $(this).find("#lantern").attr("filter", "url(#darken)");
-        });
-    };
+		// create the lantern div
+		var lant = document.createElement("div");
+		lant.innerHTML = SVG_lantern;
+		lant.style.position = "absolute";
+		lant.style.left = xpos + 'px';
+		lant.style.top = ypos + 'px';
+		lant.classList.add("box");
 
-    // TweenMax init flicker effect of lantern
-    TweenMax.staggerTo('.flicker', 2.8, {
-        stopColor:'#BF3A0B',
-        repeat:-1,
-        ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
-        yoyo:true
-    },0.1);
+		// append it
+		$("#mainPage").append(lant);
 
-    TweenMax.to('.lanternTop', 0.6, {
-        stopColor:'#000',
-        repeat:-1,
-        ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
-        yoyo:true
-    });
-    TweenMax.to('.lanternMid', 0.6, {
-        stopColor:'#FD9E2E',
-        repeat:-1,
-        ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
-        yoyo:true
-    });
+		// lantern click -> dim and post display (change to view partial)
+		lant.addEventListener("click", function(t) {
+			console.log(this);
+			$(this).find("#lantern").attr("filter", "url(#darken)");
+		});
+	};
+
+	// TweenMax init flicker effect of lantern
+	TweenMax.staggerTo('.flicker', 2.8, {
+		stopColor:'#BF3A0B',
+		repeat:-1,
+		ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
+		yoyo:true
+	},0.1);
+
+	TweenMax.to('.lanternTop', 0.6, {
+		stopColor:'#000',
+		repeat:-1,
+		ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
+		yoyo:true
+	});
+	TweenMax.to('.lanternMid', 0.6, {
+		stopColor:'#FD9E2E',
+		repeat:-1,
+		ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
+		yoyo:true
+	});
 
 }]);
 
 
 lntrnioControllers.controller("createLanternController", ["$scope", function($scope) {
-    console.log("createLanternController");
+	console.log("createLanternController");
 }]);
 
 lntrnioControllers.controller("viewLanternController", ["$scope", function($scope) {
-    console.log("viewLanternController");
+	console.log("viewLanternController");
 }]);

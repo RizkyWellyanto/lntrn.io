@@ -17,6 +17,7 @@ module.exports.deletePostById = function (id, callback) {
     Post.remove(query, callback);
 };
 
-module.exports.getAllPosts = function (callback) {
-    Post.find({}, callback);
+module.exports.getRandomPosts = function (config, callback) {
+    // Mongo aggregate call. Gets posts that have not been read in the list config.qty and returns a random set ($sample) of size config.qty
+    Post.aggregate([{$match: { text: {$nin: config.read}}}, {$sample: {size: parseInt(config.qty)}}], callback);
 };
