@@ -110,7 +110,8 @@ module.exports = function (router) {
             function (req, res) {
                 res.status(200);
                 res.send({
-                    'message': 'User logged in'
+                    'message': 'User logged in',
+                    'data': req.user
                 });
             })
         .options(function(req, res) {
@@ -203,6 +204,24 @@ module.exports = function (router) {
                     'data': user
                 });
             });
+        })
+        .put(function (req, res) {
+            console.log("updating user from routses user.js");
+            User.findOneAndUpdate(params, req.body, function (err, user) {
+                if (err || !user) {
+                    res.status(404);
+                    res.send({
+                        'message': 'User not found',
+                        'err': err
+                    });
+                    return;
+                }
+                res.status(200);
+                res.send({
+                    'message': 'User updated',
+                    'data': user
+                })
+            })
         });
 
     return router;

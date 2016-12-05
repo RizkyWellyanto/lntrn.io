@@ -42,7 +42,7 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
 	}
 }]);
 
-lntrnioControllers.controller("loginModalController", ["$scope", "User", function($scope, User) {
+lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthServices", function($scope, User, AuthServices) {
 	$scope.isLogin = true;
 	$scope.email = "";
 	$scope.password = "";
@@ -77,10 +77,11 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 		User.login($scope.email, $scope.password).success(function(res) {
 			console.log("login result", res);
 			$scope.error_msg = "";
+			AuthServices.setUserId(res.data._id);
 		}).error(function(res) {
 			$scope.error_msg = res.message || "Couldn't validate user";
 		});
-	}
+	};
 
 	$scope.doSignup = function() {
 		if ($scope.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/) == null) {
@@ -101,10 +102,14 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 	}
 }]);
 
-lntrnioControllers.controller("mainController", ["$scope", "Posts", function($scope, Posts) {
+lntrnioControllers.controller("mainController", ["$scope", "Posts", "User", "AuthServices", function($scope, Posts, User, AuthServices) {
 	// TODO:
 	// automatic GET request with updated parameters of list of lantern IDs to exclude
 	// update request everytime a user reads a lantern to store it in their history (jsut append)
+
+	$scope.desired = 5; // desired number of posts. may differ from 'recvd' number of posts
+	$scope.history = []; // array of posts read so far. needs at least one element so it doesn't blow up.
+	$scope.request = {read: $scope.history, qty: $scope.desired};
 
 	// lantern create
 	$scope.lantern = function(post) {
@@ -118,65 +123,80 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", function($sc
 		lant.style.left = xpos + 'px';
 		lant.style.top = ypos + 'px';
 		lant.classList.add("box");
+		lant.setAttribute("ng-click", "$(this).attr(filter, url(#darken)); " + "history.push(" + post._id + ")");
+
+
+		// TweenMax flicker effect
+		TweenMax.staggerTo('.flicker', 2.8, {
+			stopColor:'#BF3A0B',
+			repeat:-1,
+			ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
+			yoyo:true
+		},0.1);
+		TweenMax.to('.lanternTop', 0.6, {
+			stopColor:'#000',
+			repeat:-1,
+			ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
+			yoyo:true
+		});
+		TweenMax.to('.lanternMid', 0.6, {
+			stopColor:'#FD9E2E',
+			repeat:-1,
+			ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
+			yoyo:true
+		});
 
 		// append it
 		$("#mainPage").append(lant);
 
 		// lantern click -> dim and post display (change to view partial)
 		lant.addEventListener("click", function(t) {
+			// visual indication of being clicked
 			$(this).find("#lantern").attr("filter", "url(#darken)");
-			$(this).attr("href", "./api/post/" + post._id);
-			console.log(this);
+
+			// send user to other URL
+			// $(this).attr("href", "./api/post/" + post._id);
+
+			// add to local history, PUT update user's history array
+			if ($scope.history.indexOf(post._id) === -1) {
+				$scope.history.push(post._id);
+
+				console.log(AuthServices.getUserId());
+				// User.update( ,$scope.history);
+
+				// check if all lanterns have been clicked yet. if so, return more lanterns
+				if ($scope.history.length === $scope.recvd) {
+					console.log("ayy");
+
+				}
+			}
 		});
 	};
 
-	// function that gets lanterns with a request object (string array of IDs, quantity desired) and sets $scope.result
+	// function that gets lanterns with a request object (string array of IDs, quantity desired)
 	$scope.acquire = function (request) {
 		Posts.get(request).success(function (res) {
-			var posts = res.data;
-			for (var i = 0; i < posts.length; i++) {
-				$scope.lantern(posts[i]);
-
+			$scope.posts = res.data;
+			$scope.recvd = $scope.posts.length;
+			for (var i = 0; i < $scope.recvd; i++) {
+				$scope.lantern($scope.posts[i]);
 			}
-
 		}).error(function (err) {
 			console.log(err);
 		});
 	};
 
 
-	$scope.read = []; // array of posts read so far. needs at least one element so it doesn't blow up.
-	$scope.request = {read: $scope.read, qty: 10};
-	$scope.result = [];
 
 	// always call on first page load to populate with lanterns
 	$scope.acquire($scope.request);
 
-	$scope.$watch('result', function(newRes) {
-		console.log(newRes);
-	});
+	// $scope.$watchCollection('history', function(newVal, oldVal) {
+	// 	console.log("what");
+	// 	console.log(newVal);
+	// }, true);
 
 
-	// TweenMax init flicker effect of lantern
-	TweenMax.staggerTo('.flicker', 2.8, {
-		stopColor:'#BF3A0B',
-		repeat:-1,
-		ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
-		yoyo:true
-	},0.1);
-
-	TweenMax.to('.lanternTop', 0.6, {
-		stopColor:'#000',
-		repeat:-1,
-		ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
-		yoyo:true
-	});
-	TweenMax.to('.lanternMid', 0.6, {
-		stopColor:'#FD9E2E',
-		repeat:-1,
-		ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
-		yoyo:true
-	});
 
 }]);
 
