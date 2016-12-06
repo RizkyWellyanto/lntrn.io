@@ -30,12 +30,17 @@ var SVG_lantern = '\
         c9.9,0,17.4,3.6,17.4,8.3c0,0.1,0,0.2,0,0.2c2-3.6,10.9-33.1,11.9-42.7C63.3,9.3,34.2,0,26.4,0z"/>\
     </svg>';
 
-lntrnioControllers.controller("loginController", ['$scope', '$window', 'AuthServices', 'Popeye', function($scope, $window, AuthServices, Popeye) {
+lntrnioControllers.controller("loginController", ['$scope', '$window', "User", 'AuthServices', 'Popeye', function($scope, $window, User, AuthServices, Popeye) {
 	if (AuthServices.getUserId()) {
 		console.log("User is already logged in");
 		$window.location.href = "#/main";
 	}
 	else console.log("AuthServices.userid=", AuthServices.getUserId());
+
+	User.getUser().success(function(res) {
+		AuthServices.setUserId(res.data._id);
+		$window.location.href = "#/main"
+	})
 	$scope.load_login_modal = function() {
 		console.log("loading Modal");
 		var modal = Popeye.openModal({

@@ -175,6 +175,9 @@ button:focus {outline:0;}
 	display: none !important;
 }
 
+.popeye-modal-container {
+	background-color: rgba(255, 255, 255, .3) !important;
+}
 
 /* main page */
 #mainPage {
