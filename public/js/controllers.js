@@ -6,8 +6,7 @@ var SVG_lantern = '\
             <feComponentTransfer>\
                 <feFuncR type="linear" slope="0.3"/>\
                 <feFuncG type="linear" slope="0.3"/>\
-                <feFuncB type="linear" slope="0.3"/>\
-            </feComponentTransfer>\
+                <feFuncB type="linear" slope="0.3"/>\ </feComponentTransfer>\
             </filter>\
             <radialGradient id="lanternGrad" cx="33.4551" cy="63.1367" r="59.6359" gradientUnits="userSpaceOnUse">\
                 <stop offset="0"            style="stop-color:#FCFFDD"/>\
@@ -35,14 +34,14 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
 	$scope.load_login_modal = function() {
 		console.log("loading Modal");
 		var modal = Popeye.openModal({
-			templateUrl: "./partials/login_modal.html",
-			controller: "loginModalController",
-			modalClass: "demo-modal small"
-		});
-	}
+      		templateUrl: "./partials/login_modal.html",
+      		controller: "loginModalController",
+      		modalClass: "demo-modal small"
+      	});
+    }
 }]);
 
-lntrnioControllers.controller("loginModalController", ["$scope", "User", function($scope, User) {
+lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthServices", function($scope, User, AuthServices) {
 	$scope.isLogin = true;
 	$scope.email = "";
 	$scope.password = "";
@@ -77,10 +76,12 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 		User.login($scope.email, $scope.password).success(function(res) {
 			console.log("login result", res);
 			$scope.error_msg = "";
+			AuthServices.setUserId(res.data._id);
 		}).error(function(res) {
 			$scope.error_msg = res.message || "Couldn't validate user";
+			AuthServices.setUserId("");
 		});
-	}
+	};
 
 	$scope.doSignup = function() {
 		if ($scope.email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/) == null) {
@@ -96,80 +97,70 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 				console.log("signup result", res);
 				$scope.error_msg = "";
 			}).error(function(res) {
-			$scope.error_msg = res.message;
-		});
-	}
-}]);
-
-lntrnioControllers.controller("mainController", ["$scope", "Posts", function($scope, Posts) {
-    // TODO:
-    // automatic GET request with updated parameters of list of lantern IDs to exclude
-    // update request everytime a user reads a lantern to store it in their history (jsut append)
-
-	$scope.read = []; // array of posts read so far. needs at least one element so it doesn't blow up.
-
-	$scope.request = {read: $scope.read, qty: 20};
-	Posts.get($scope.request).success(function(res) {
-		var posts = res.data;
-		for (var i = 0; i< posts.length; i++) {
-			console.log(posts[i].text);
-		}
-		console.log(posts.length);
-	}).error(function(err) {
-		console.log(err);
-	});
-
-	// lantern create
-	$scope.lantern = function(x, y) {
-		var xpos = x || parseInt(Math.random() * ($(window).width() - 124) + 62);
-		var ypos = y || parseInt(Math.random() * ($(window).height() - 136) + 68);
-
-		// create the lantern div
-		var lant = document.createElement("div");
-		lant.innerHTML = SVG_lantern;
-		lant.style.position = "absolute";
-		lant.style.left = xpos + 'px';
-		lant.style.top = ypos + 'px';
-		lant.classList.add("box");
-
-		// append it
-		$("#mainPage").append(lant);
-
-		// lantern click -> dim and post display (change to view partial)
-		lant.addEventListener("click", function(t) {
-			console.log(this);
-			$(this).find("#lantern").attr("filter", "url(#darken)");
-		});
+				$scope.error_msg = res.message;
+			});
 	};
+}]);
 
-	// TweenMax init flicker effect of lantern
-	TweenMax.staggerTo('.flicker', 2.8, {
-		stopColor:'#BF3A0B',
-		repeat:-1,
-		ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
-		yoyo:true
-	},0.1);
+lntrnioControllers.controller("mainController", ["$scope", function($scope) {
+	console.log("mainController");
 
-	TweenMax.to('.lanternTop', 0.6, {
-		stopColor:'#000',
-		repeat:-1,
-		ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
-		yoyo:true
-	});
-	TweenMax.to('.lanternMid', 0.6, {
-		stopColor:'#FD9E2E',
-		repeat:-1,
-		ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
-		yoyo:true
-	});
+    $scope.lantern = function(x, y) {
+        var xpos = x || parseInt(Math.random() * ($(window).width() - 124) + 62);
+        var ypos = y || parseInt(Math.random() * ($(window).height() - 136) + 68);
+
+        var lant = document.createElement("div");
+        lant.innerHTML = SVG_lantern;
+        lant.style.position = "absolute";
+        lant.style.left = xpos + 'px';
+        lant.style.top = ypos + 'px';
+        $("#mainpage").append(lant);
+        lant.classList.add("box");
+
+        // lantern click -> dim and post display (change to view partial)
+        lant.addEventListener("click", function(t) {
+            console.log(this);
+            $(this).find("#lantern").attr("filter", "url(#darken)");
+        });
+    };
+
+    // TweenMax init flicker effect of lantern
+    TweenMax.staggerTo('.flicker', 2.8, {
+        stopColor:'#BF3A0B',
+        repeat:-1,
+        ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
+        yoyo:true
+    },0.1);
+
+    TweenMax.to('.lanternTop', 0.6, {
+        stopColor:'#000',
+        repeat:-1,
+        ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
+        yoyo:true
+    });
+    TweenMax.to('.lanternMid', 0.6, {
+        stopColor:'#FD9E2E',
+        repeat:-1,
+        ease:RoughEase.ease.config({ template: Power0.easeNone, strength: 3, points: 10, taper: "none", randomize: true, clamp: false}),
+        yoyo:true
+    });
 
 }]);
 
-
-lntrnioControllers.controller("createLanternController", ["$scope", function($scope) {
-	console.log("createLanternController");
+lntrnioControllers.controller("createLanternController", ["$scope", "Posts", "AuthServices", function($scope, Posts) {
+    console.log("createLanternController");
+    $scope.addPost = function(){
+        // console.log("hi");
+        console.log("$scope.postText", $scope.postText);
+		    Posts.addPost($scope.postText).success(function(res) {
+			      console.log("Post Added", res);
+			      $scope.error_msg = "";
+		    }).error(function(res) {
+			      $scope.error_msg = res.message || "Could Not Add Post";
+		    });
+    };
 }]);
 
 lntrnioControllers.controller("viewLanternController", ["$scope", function($scope) {
-	console.log("viewLanternController");
+    console.log("viewLanternController");
 }]);

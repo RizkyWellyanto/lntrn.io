@@ -9,8 +9,7 @@ lntrnioServices.factory("User", function($http) {
 				"password2": retype
 			};
 			return $http({
-			    method: 'POST',
-			    url: "./api/register",
+			    method: 'POST', url: "./api/register",
 			    data: $.param(postData),
 			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			});
@@ -27,13 +26,36 @@ lntrnioServices.factory("User", function($http) {
 			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			});
 		}
-	}
+	};
 });
 
 lntrnioServices.factory("Posts", function($http) {
 	return {
-		get : function(parameters) {
-			return $http.get("./api/posts", {params: parameters});
+		get : function() {
+			return $http.get("./api/posts");
+		},
+        addPost: function(text){
+        var postData = {
+            "text": text
+        };
+            return $http({
+                method: 'POST',
+                url: "./api/posts",
+                data: $.param(postData),
+			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            });
+        }
+	}
+});
+
+lntrnioServices.factory("AuthServices", function() {
+	var userId = null;
+	return  {
+		getUserId : function() {
+			return userId;
+		},
+		setUserId : function(value) {
+			userId = value;
 		}
 	}
 });

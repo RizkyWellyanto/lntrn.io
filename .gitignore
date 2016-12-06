@@ -3,3 +3,6 @@ node_modules
 npm-debug.log
 config/secrets.js
 public/lib
+*.vim
+setup.sh
+sample.js

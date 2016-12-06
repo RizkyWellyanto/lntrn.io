@@ -107,7 +107,8 @@ module.exports = function (router) {
             function (req, res) {
                 res.status(200);
                 res.send({
-                    'message': 'User logged in'
+                    'message': 'User logged in',
+                    'data': req.user
                 });
             })
         .options(function (req, res) {
@@ -220,6 +221,8 @@ var isLoggedIn = function (req, res, next) {
         });
     }
 };
+<<<<<<< HEAD
+=======
 
 var isNotLoggedIn = function (req, res, next) {
     if (req.isAuthenticated()) {
@@ -233,3 +236,4 @@ var isNotLoggedIn = function (req, res, next) {
     }
 };
 
+>>>>>>> origin
