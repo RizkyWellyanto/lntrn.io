@@ -44,7 +44,18 @@ lntrnioServices.factory("Posts", function($http) {
 	return {
 		get : function(parameters) {
 			return $http.get("./api/posts", {params: parameters});
-		}
+		},
+        addPost: function(text){
+        var postData = {
+            "text": text
+        };
+            return $http({
+                method: 'POST',
+                url: "./api/posts",
+                data: $.param(postData),
+			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            });
+        }
 	}
 });
 
