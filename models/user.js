@@ -8,7 +8,8 @@ var userSchema = new mongoose.Schema({
         id:String,
         token:String
     },
-    posts:[String]
+    posts:[String],
+    history:[String]
 });
 
 var User = module.exports = mongoose.model('User', userSchema);

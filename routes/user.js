@@ -11,7 +11,6 @@ module.exports = function (router) {
             var email = req.body.email;
             var password = req.body.password;
             var password2 = req.body.password2;
-            
 
             // validations
             req.checkBody('email', 'Email is required').notEmpty();
@@ -22,7 +21,7 @@ module.exports = function (router) {
             var errors = req.validationErrors();
 
             if (errors) {
-                res.status(500);
+                res.status(404);
                 res.send({
                     'message': 'Error!',
                     'error': errors
@@ -46,8 +45,6 @@ module.exports = function (router) {
                     if (!user) {
                         User.createUser(newUser, function (err, user) {
                             if (err) throw err;
-                            console.log(user);
-
                             res.status(201);
                             res.send({
                                 'message': 'User created!'
@@ -64,7 +61,7 @@ module.exports = function (router) {
                 });
             }
         })
-        .options(function(req, res) {
+        .options(function (req, res) {
             res.writeHead(200);
             res.end();
         });
@@ -106,7 +103,7 @@ module.exports = function (router) {
         }));
 
     router.route('/login')
-        .post(passport.authenticate('local-login'),
+        .post(isNotLoggedIn, passport.authenticate('local-login'),
             function (req, res) {
                 res.status(200);
                 res.send({
@@ -114,7 +111,7 @@ module.exports = function (router) {
                     'data': req.user
                 });
             })
-        .options(function(req, res) {
+        .options(function (req, res) {
             res.writeHead(200);
             res.end();
         });
@@ -133,14 +130,11 @@ module.exports = function (router) {
             process.nextTick(function () {
                 // find user based on fb id
                 User.getUserByEmail(profile.emails[0].value, function (err, user) {
-                    console.log(JSON.stringify(user));
-
                     if (err) {
                         return done(err);
                     }
                     // user found
                     if (user) {
-                        console.log("user found in database");
                         return done(null, user);
                     }
                     else {
@@ -187,23 +181,29 @@ module.exports = function (router) {
             })
         });
 
-    router.route('/user/:id')
-        .get(function (req, res) {
-            User.findById(req.params.id, function (err, user) {
+    router.route('/user')
+        .get(isLoggedIn, function (req, res) {
+            User.getUserById(req.user._id, function (err, user) {
                 if (err || !user) {
                     res.status(404);
                     res.send({
-                        'message': 'Post not found',
+                        'message': 'User not found',
                         'err': err
                     });
                     return;
                 }
+
+                var retUser = JSON.parse(JSON.stringify(user));
+                delete retUser.password;
                 res.status(200);
                 res.send({
-                    'message': 'OK',
-                    'data': user
+                    'message': 'User data',
+                    'data': retUser
                 });
             });
+        })
+        .put(isLoggedIn, function(req, res){
+            // TODO you can do the user updating here, although this endpoint should be unnecessary
         });
 
     return router;
@@ -222,4 +222,15 @@ var isLoggedIn = function (req, res, next) {
     }
 };
 
+var isNotLoggedIn = function (req, res, next) {
+    if (req.isAuthenticated()) {
+        res.status(500);
+        res.send({
+            'error_msg': 'You are currently logged in'
+        });
+    }
+    else {
+        return next();
+    }
+};
 
