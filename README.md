@@ -16,9 +16,12 @@
             update a lantern
         DELETE
             delete the lantern, update the user's post array
-    "/user/:id"
+    "/user"
         GET
-            get a specific user, must be authenticated
+            get the current logged in user, must be authenticated
+    "/register"
+        POST
+            takes email, password, password2
     "/login"
         POST
             params are username and password
@@ -31,4 +34,5 @@
 
 ### How to set up lntrn.io
     npm install
+    bower install
     node server

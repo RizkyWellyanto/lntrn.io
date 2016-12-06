@@ -1,8 +1,10 @@
 var Post = require('../models/post');
+var User = require('../models/user');
 
 module.exports = function (router) {
     router.route('/posts')
         .get(function (req, res) {
+<<<<<<< HEAD
             console.log("requesting all posts");
             var num_post = req.body.num_post || 1;
 
@@ -14,8 +16,17 @@ module.exports = function (router) {
                         'message':'Could not fetch any posts',
                         'error':err
                     });
+=======
+            Post.getRandomPosts(req.query, function (err, posts) {
+                if (err || posts.length == 0) {
+                    res.status(400);
+                    res.send({
+                        'message': 'Could not fetch any posts',
+                        'error': err
+                    })
+>>>>>>> origin
                 }
-                else{
+                else {
                     res.status(200);
                     res.send({
                         'message': 'OK',
@@ -29,23 +40,56 @@ module.exports = function (router) {
                 // console.log("passed log in");
                 req.checkBody('text', 'Text content is required').notEmpty();
 
+                var errors = req.validationErrors();
+
+                if(errors){
+                    res.status(404);
+                    res.send({
+                        'message': 'Error!',
+                        'error': errors
+                    });
+                }
+
                 var newPost = new Post();
                 newPost.text = req.body.text;
                 newPost.save(function (err) {
-                    if(err){
-                        res.status(400);
+                    if (err) {
+                        res.status(500);
                         res.send({
-                            'message':'error',
-                            'error':err
+                            'message': 'Error while creating a new post',
+                            'error': err
                         });
+                        return;
                     }
-                    else{
-                        res.status(201);
-                        res.send({
-                            'message':'OK',
-                            'data':newPost
+
+                    // update the user post[]
+                    User.getUserById(req.user._id, function (err, user) {
+                        if (err || !user) {
+                            res.status(500);
+                            res.send({
+                                'message': 'Error while updating user\'s post',
+                                'error': err
+                            });
+                            return;
+                        }
+
+                        user.posts.push(newPost._id);
+                        user.save(function (err) {
+                            if (err) {
+                                res.status(500);
+                                res.send({
+                                    'message': 'Error while updating user\'s post',
+                                    'error': err
+                                });
+                                return;
+                            }
+
+                            res.status(201);
+                            res.send({
+                                'message': 'Lantern is created!'
+                            });
                         });
-                    }
+                    });
                 });
             })
         .options(function (req, res) {
@@ -64,6 +108,12 @@ module.exports = function (router) {
                     });
                     return;
                 }
+<<<<<<< HEAD
+=======
+
+                // TODO should update the user history[] here
+
+>>>>>>> origin
                 res.status(200);
                 res.send({
                     'message': 'OK',
@@ -71,32 +121,56 @@ module.exports = function (router) {
                 });
             });
         })
-        .delete(function (req, res) {
-            Post.getPostById(req.params.id, function(err, post){
-                if(err || !post){
+        .delete(isLoggedIn, function (req, res) {
+            Post.getPostById(req.params.id, function (err, post) {
+                if (err || !post) {
                     res.status(404);
                     res.send({
-                        'message':'Unable to get lantern'
+                        'message': 'Unable to find lantern'
                     });
+                    return;
                 }
-                else{
-                    Post.deletePostById(req.params.id, function(err, post){
-                        if (err || !pot) {
-                            res.status(404);
+                Post.deletePostById(req.params.id, function (err, post) {
+                    if (err || !post) {
+                        res.status(500);
+                        res.send({
+                            'message': 'Lantern failed to be deleted',
+                            'err': err
+                        });
+                        return;
+                    }
+
+                    // update the user post[]
+                    User.getUserById(req.user._id, function (err, user) {
+                        if (err || !user) {
+                            res.status(500);
                             res.send({
-                                'message': 'Lantern failed to be deleted',
-                                'err': err
+                                'message': 'Error while updating user\'s post',
+                                'error': err
                             });
+                            return;
                         }
-                        else{
-                            res.status(200);
+
+                        user.posts = user.posts.filter(function (post_id) {
+                            return post_id !== post._id;
+                        });
+                        user.save(function (err) {
+                            if (err) {
+                                res.status(500);
+                                res.send({
+                                    'message': 'Error while updating user\'s post',
+                                    'error': err
+                                });
+                                return;
+                            }
+
+                            res.status(201);
                             res.send({
-                                'message': 'Lantern successfully deleted!',
-                                'data': post
+                                'message': 'Lantern is created!'
                             });
-                        }
+                        });
                     });
-                }
+                });
             });
         });
 
