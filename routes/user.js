@@ -206,8 +206,9 @@ module.exports = function (router) {
             });
         })
         .put(function (req, res) {
-            console.log("updating user from routses user.js");
-            User.findOneAndUpdate(params, req.body, function (err, user) {
+            console.log(req.params);
+            console.log(req.body);
+            User.findOneAndUpdate(req.params.id, req.body, {new: true}, function (err, user) {
                 if (err || !user) {
                     res.status(404);
                     res.send({
@@ -216,6 +217,7 @@ module.exports = function (router) {
                     });
                     return;
                 }
+                console.log("what");
                 res.status(200);
                 res.send({
                     'message': 'User updated',

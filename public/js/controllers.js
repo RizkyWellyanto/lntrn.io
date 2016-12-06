@@ -162,7 +162,12 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", "User", "Aut
 				$scope.history.push(post._id);
 
 				console.log(AuthServices.getUserId());
-				// User.update( ,$scope.history);
+				User.update({_id: AuthServices.getUserId(), history: $scope.history}).success(function(res) {
+					console.log(res);
+				}).error(function(err) {
+					console.log("error");
+					console.log(err);
+				});
 
 				// check if all lanterns have been clicked yet. if so, return more lanterns
 				if ($scope.history.length === $scope.recvd) {
@@ -172,6 +177,7 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", "User", "Aut
 			}
 		});
 	};
+
 
 	// function that gets lanterns with a request object (string array of IDs, quantity desired)
 	$scope.acquire = function (request) {
@@ -186,6 +192,11 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", "User", "Aut
 		});
 	};
 
+	User.getUser(AuthServices.getUserId()).success(function(res) {
+		$scope.user = res.data;
+	}).error(function(err) {
+		console.log(err);
+	});
 
 
 	// always call on first page load to populate with lanterns

@@ -27,8 +27,12 @@ lntrnioServices.factory("User", function($http) {
 			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			});
 		},
+        getUser : function(id) {
+            return $http.get("./api/user/" + id);
+        },
         update : function(updatedUser) {
-            return $http.put("./api/user/" + updatedUser._id, updatedUser);
+            console.log(updatedUser);
+            return $http.put("./api/user/" + updatedUser._id, {history: updatedUser.history});
         }
 	}
 });
