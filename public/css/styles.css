@@ -182,6 +182,24 @@ button:focus {outline:0;}
 	display: none !important;
 }
 
+
+/* main page */
+#mainPage {
+	background-image: url("../images/night-sky.jpg");
+	background-size: 100% 100%;
+}
+
+.logoutbutton {
+	cursor: pointer;
+}
+
+.topright {
+	position:absolute;
+	top:0;
+	right:0;
+	padding: 10px;
+}
+
 /* LANTERN CSS CODE */
 .box{
 	width: 62px;

@@ -27,6 +27,9 @@ lntrnioServices.factory("User", function($http) {
 			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 			});
 		},
+		logout : function() {
+			return $http.get("./api/logout");
+		},
         getUser : function(id) {
             return $http.get("./api/user/" + id);
         },
@@ -45,14 +48,21 @@ lntrnioServices.factory("Posts", function($http) {
 	}
 });
 
-lntrnioServices.factory("AuthServices", function() {
+lntrnioServices.factory("AuthServices", function($http) {
 	var userId = null;
+
 	return  {
 		getUserId : function() {
 			return userId;
 		},
 		setUserId : function(value) {
 			userId = value;
+		},
+		checkServerLogin : function() {
+			$http.get("./api/user/").success(function(res) {
+				userId = res.data._id;
+				return userId;
+			});
 		}
 	}
 });
