@@ -123,6 +123,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 
 	$scope.desired = 5; // desired number of posts. may differ from 'recvd' number of posts
 	$scope.history = []; // array of posts read so far. needs at least one element so it doesn't blow up.
+	$scope.lastLength = 0; // number of lanterns before refresh
 	$scope.request = {read: $scope.history, qty: $scope.desired};
 
 	$scope.logout = function() {
@@ -196,18 +197,15 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 			// visual indication of being clicked
 			$(this).find("#lantern").attr("filter", "url(#darken)");
 
-			// send user to other URL
-			// $(this).attr("href", "./api/post/" + post._id);
-
 			// add to local history, PUT update user's history array
 			if ($scope.history.indexOf(post._id) === -1) {
 				$scope.history.push(post._id);
 
-				console.log(AuthServices.getUserId());
-
-			// 	// check if all lanterns have been clicked yet. if so, return more lanterns
-				if ($scope.history.length === $scope.recvd) {
-					console.log("ayy");
+				// check if all lanterns have been clicked yet. if so, return more lanterns
+				if ($scope.history.length === $scope.lastLength + $scope.recvd) {
+					$(".box").remove();
+					$scope.lastLength = $scope.history.length;
+					$scope.acquire($scope.request);
 				}
 			}
 		});
