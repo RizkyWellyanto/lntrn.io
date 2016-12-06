@@ -221,5 +221,3 @@ var isLoggedIn = function (req, res, next) {
         });
     }
 };
-
-

@@ -9,4 +9,7 @@
 <button ng-click="addPost()" class="login_button create">Post</button>
 <button ng-click="" class="login_button create">Back</button>
 <!-- <textarea id="lanternTextField" ng-model="$parent.postText"></textarea> -->
-<textarea id="lanternTextField" ng-model="postText"></textarea>
+<div contenteditable="true" 
+	 class="validate[required,length[6, 300]] feedback-input" 
+     id="lanternTextField" 
+     ng-model="postText"></div>

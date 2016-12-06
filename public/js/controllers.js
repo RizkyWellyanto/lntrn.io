@@ -41,11 +41,7 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
     }
 }]);
 
-<<<<<<< HEAD
-lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthService", function($scope, User) {
-=======
 lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthServices", function($scope, User, AuthServices) {
->>>>>>> d51a5ffa5b575d03daaff325d55be9fe9378950e
 	$scope.isLogin = true;
 	$scope.email = "";
 	$scope.password = "";
@@ -151,7 +147,7 @@ lntrnioControllers.controller("mainController", ["$scope", function($scope) {
 
 }]);
 
-lntrnioControllers.controller("createLanternController", ["$scope", "Posts", "AuthService" function($scope, Posts) {
+lntrnioControllers.controller("createLanternController", ["$scope", "Posts", "AuthServices", function($scope, Posts) {
     console.log("createLanternController");
     $scope.addPost = function(){
         // console.log("hi");

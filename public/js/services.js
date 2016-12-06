@@ -33,7 +33,18 @@ lntrnioServices.factory("Posts", function($http) {
 	return {
 		get : function() {
 			return $http.get("./api/posts");
-		}
+		},
+        addPost: function(text){
+        var postData = {
+            "text": text
+        };
+            return $http({
+                method: 'POST',
+                url: "./api/posts",
+                data: $.param(postData),
+			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            });
+        }
 	}
 });
 
@@ -48,16 +59,3 @@ lntrnioServices.factory("AuthServices", function() {
 		}
 	}
 });
-
-lntrnioServices.factory("AuthServices", function(){
-    var userId = null;
-    return {
-        getUserId: function(){
-            return userId;
-        },
-        setUserId: function(val){
-            userId = val;
-        }
-    }
-}
-

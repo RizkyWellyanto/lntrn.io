@@ -107,9 +107,9 @@ module.exports = function (router) {
 // connect-style funct to check whether user is logged in. can act as middleware
 var isLoggedIn = function (req, res, next) {
     var authenticationState = req.isAuthenticated();
-    console.log("authenticationState (before): ", authenticationState);
-    authenticationState = true;
-    console.log("authenticationState (after): ", authenticationState);
+    // console.log("authenticationState (before): ", authenticationState);
+    // authenticationState = true;
+    // console.log("authenticationState (after): ", authenticationState);
     if (authenticationState) {
         return next();
     }
