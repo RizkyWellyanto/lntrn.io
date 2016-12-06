@@ -20,7 +20,7 @@ module.exports = function (router) {
                         'data': posts
                     });
                 }
-            })
+            });
         })
         .post(isLoggedIn,
             function (req, res) {

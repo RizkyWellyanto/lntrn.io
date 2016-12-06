@@ -107,7 +107,8 @@ module.exports = function (router) {
             function (req, res) {
                 res.status(200);
                 res.send({
-                    'message': 'User logged in'
+                    'message': 'User logged in',
+                    'data': req.user
                 });
             })
         .options(function (req, res) {

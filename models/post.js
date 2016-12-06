@@ -32,3 +32,11 @@ module.exports.getRandomPosts = function (config, callback) {
     // Mongo aggregate call. Gets posts that have not been read in the array config.qty and returns a random set ($sample) of size config.qty
     Post.aggregate([{$match: {_id: {$nin: read}}}, {$sample: {size: quantity}}], callback);
 };
+
+module.exports.getUserHistory = function(config, callback) {
+  Post.find(config, callback);
+};
+
+module.exports.getUserPosts = function(config, callback) {
+
+};
