@@ -4,8 +4,6 @@ var User = require('../models/user');
 module.exports = function (router) {
     router.route('/posts')
         .get(function (req, res) {
-<<<<<<< HEAD
-            console.log("requesting all posts");
             var num_post = req.body.num_post || 1;
 
             // get all posts
@@ -13,10 +11,6 @@ module.exports = function (router) {
                 if(err || posts.length == 0){
                     res.status(400);
                     res.send({
-                        'message':'Could not fetch any posts',
-                        'error':err
-                    });
-=======
             Post.getRandomPosts(req.query, function (err, posts) {
                 if (err || posts.length == 0) {
                     res.status(400);
@@ -24,7 +18,6 @@ module.exports = function (router) {
                         'message': 'Could not fetch any posts',
                         'error': err
                     })
->>>>>>> origin
                 }
                 else {
                     res.status(200);
