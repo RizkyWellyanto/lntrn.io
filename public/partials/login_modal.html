@@ -8,19 +8,19 @@
 	<div class="login_description">Login with your email account</div>
 	<form>
 		<input class="login_input" title="Your Email Address" type="text" name="email" ng-model="email" placeholder="Email address">
-		<input class="login_input" title="Your password" type="text" name="password" ng-model="password" placeholder="Password">
+		<input class="login_input" title="Your password" type="password" name="password" ng-model="password" placeholder="Password">
 		<button class="login_button" ng-click="doLogin()">Log In</button>
 		<div class="error" ng-bind="error_msg" ng-show="error_msg != ''"></div>
-
 	</form>
+	
 </div>
 
 <div class="login_description" ng-show="!isLogin">
 	<div>Sign up with your email account</div>
 	<form>
 		<input class="login_input" title="Your Email Address" type="text" name="email" ng-model="email" placeholder="Email address">
-		<input class="login_input" title="Your password" type="text" name="password" ng-model="password" placeholder="Password">
-		<input class="login_input" title="Retype password" type="text" name="password_retype" ng-model="password_retype" placeholder="Retype password">
+		<input class="login_input" title="Your password" type="password" name="password" ng-model="password" placeholder="Password">
+		<input class="login_input" title="Retype password" type="password" name="password_retype" ng-model="password_retype" placeholder="Retype password">
 
 		<div class="error" ng-bind="error_msg" ng-show="error_msg.length"></div>
 

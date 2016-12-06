@@ -33,7 +33,17 @@ lntrnioServices.factory("Posts", function($http) {
 	return {
 		get : function() {
 			return $http.get("./api/posts");
+		}
+	}
+});
+
+lntrnioServices.factory("AuthServices", function() {
+	var userId = null;
+	return  {
+		getUserId : function() {
+			return userId;
 		},
+<<<<<<< HEAD
       // post: function(postText, UserId) {
     addPost: function(postText) {
         // console.log("adding post");
@@ -49,6 +59,12 @@ lntrnioServices.factory("Posts", function($http) {
           }); 
     }
 	};
+=======
+		setUserId : function(value) {
+			userId = value;
+		}
+	}
+>>>>>>> d51a5ffa5b575d03daaff325d55be9fe9378950e
 });
 
 lntrnioServices.factory("AuthServices", function(){

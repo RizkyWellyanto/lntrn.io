@@ -110,8 +110,13 @@ module.exports = function (router) {
             function (req, res) {
                 res.status(200);
                 res.send({
+<<<<<<< HEAD
                     'message': 'User logged in'
                     'data':req.user
+=======
+                    'message': 'User logged in',
+                    'data': req.user
+>>>>>>> d51a5ffa5b575d03daaff325d55be9fe9378950e
                 });
             })
         .options(function(req, res) {
