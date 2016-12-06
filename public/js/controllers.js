@@ -102,13 +102,16 @@ lntrnioControllers.controller("loginModalController", ["$scope", "$window", "Use
 			.success(function(res) {
 				console.log("signup result", res);
 				$scope.error_msg = "";
+				AuthServices.setUserId(res.data._id);
+				$scope.$close();
+				$window.location.href = "#/main";
 			}).error(function(res) {
 				$scope.error_msg = res.message;
 			});
 	};
 }]);
 
-lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "User", "AuthServices", function($scope, $window, Posts, User, AuthServices) {
+lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "User", "Popeye", "AuthServices", function($scope, $window, Posts, User, Popeye, AuthServices) {
 	// TODO:
 	// automatic GET request with updated parameters of list of lantern IDs to exclude
 	// update request everytime a user reads a lantern to store it in their history (jsut append)
@@ -129,6 +132,17 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 			});
 	}
 
+	$scope.openLanternModal = function(lanternId) {
+		console.log(lanternId);
+		var modal = Popeye.openModal({
+			templateUrl: "./partials/viewLantern.html",
+			controller: "viewLanternController",
+			// resolve: {
+			// 	post : Posts.getOne(lanternId)
+			// }
+		});
+	}
+
 	// lantern create
 	$scope.lantern = function(post) {
 		var xperc = Math.random() * .8 + .1;
@@ -144,7 +158,8 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 		lant.style.left = 100*xperc + 'vw';
 		lant.style.top = 100*yperc + 'vh';
 		lant.classList.add("box");
-		lant.setAttribute("ng-click", "$(this).attr(filter, url(#darken)); " + "history.push(" + post._id + ")");
+		lant.setAttribute("ng-click", "$(this).attr(filter, url(#darken));");
+
 
 		// TweenMax flicker effect
 		TweenMax.staggerTo('.flicker', 2.8, {
@@ -171,6 +186,8 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 
 		// lantern click -> dim and post display (change to view partial)
 		lant.addEventListener("click", function(t) {
+			$window.displayPostId = post._id;
+			$scope.openLanternModal(post._id);
 			// visual indication of being clicked
 			$(this).find("#lantern").attr("filter", "url(#darken)");
 
@@ -224,6 +241,7 @@ lntrnioControllers.controller("createLanternController", ["$scope", "Posts", fun
         // console.log("hi");
         // console.log("$scope.postText", $scope.postText);
         // console.log("why not?");
+        //                                 V--What is this
 		    Posts.addPost($scope.postText, $scope.password).success(function(res) {
 			      console.log("login result", res);
 			      $scope.error_msg = "";
@@ -233,6 +251,13 @@ lntrnioControllers.controller("createLanternController", ["$scope", "Posts", fun
     };
 }]);
 
-lntrnioControllers.controller("viewLanternController", ["$scope", function($scope) {
+lntrnioControllers.controller("viewLanternController", ["$scope", "$routeParams", "$window", "Posts", function($scope, $routeParams, $window, Posts) {
+	$scope.postText = "";
 	console.log("viewLanternController");
+	var lanternId = $window.displayPostId;
+	Posts.getOne(lanternId).success(function(res) {
+		$scope.postText = res.data.text;
+	}).error(function() {
+		console.log(error);
+	});
 }]);

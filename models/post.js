@@ -28,6 +28,10 @@ module.exports.getRandomPosts = function (config, callback) {
         read = config.read.map(function(id) {return ObjectId(id);});
 
     var quantity = parseInt(config.qty);
+    if (!quantity) {
+        read = [];
+        quantity = 50;
+    }
 
     // Mongo aggregate call. Gets posts that have not been read in the array config.qty and returns a random set ($sample) of size config.qty
     Post.aggregate([{$match: {_id: {$nin: read}}}, {$sample: {size: quantity}}], callback);

@@ -30,8 +30,8 @@ lntrnioServices.factory("User", function($http) {
 		logout : function() {
 			return $http.get("./api/logout");
 		},
-        getUser : function(id) {
-            return $http.get("./api/user/" + id);
+        getUser : function() {
+            return $http.get("./api/user/");
         },
         update : function(updatedUser) {
             console.log(updatedUser);
@@ -46,15 +46,18 @@ lntrnioServices.factory("Posts", function($http) {
 			return $http.get("./api/posts", {params: parameters});
 		},
         addPost: function(text){
-        var postData = {
-            "text": text
-        };
+	        var postData = {
+	            "text": text
+	        };
             return $http({
                 method: 'POST',
                 url: "./api/posts",
                 data: $.param(postData),
 			    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             });
+        },
+        getOne: function(id) {
+        	return $http.get("./api/post/"+id);
         }
 	}
 });
@@ -69,7 +72,7 @@ lntrnioServices.factory("AuthServices", function($http) {
 		setUserId : function(value) {
 			userId = value;
 		},
-		checkServerLogin : function() {
+		tryGetServerLogin : function() {
 			$http.get("./api/user/").success(function(res) {
 				userId = res.data._id;
 				return userId;

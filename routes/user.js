@@ -47,7 +47,8 @@ module.exports = function (router) {
                             if (err) throw err;
                             res.status(201);
                             res.send({
-                                'message': 'User created!'
+                                'message': 'User created!',
+                                'data': user
                             });
                         });
                     }

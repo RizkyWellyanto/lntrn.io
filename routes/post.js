@@ -34,6 +34,7 @@ module.exports = function (router) {
                         'message': 'Error!',
                         'error': errors
                     });
+                    return;
                 }
 
                 var newPost = new Post();

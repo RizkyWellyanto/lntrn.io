@@ -93,6 +93,7 @@ button:focus {outline:0;}
 	font-family: Arial;
 	margin: 10px 0;
 	text-align: center;
+	text-decoration: none;
 }
 
 .login_description {
@@ -151,14 +152,6 @@ button:focus {outline:0;}
 	width: 100%;
 	color:white;
 	font-size: 96px;
-}
-
-.login_button.create{
-    position: relative;
-    top: -420px;
-    left: 935px;
-    /* margin: -100px 0px 0px 0px; */
-    /* position:fixed; */
 }
 
 .title.lanternView{
@@ -249,15 +242,25 @@ button:focus {outline:0;}
 	transform: translateX(-50%);
 }
 
-.title.create{
+
+/* Lantern Create/View */
+
+.create{
     position: relative;
     top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
 }
-
 
 .title_container.lanternTitle{
     font-size: 28px;
-    margin: 0px 0px 0px -580px;
+}
+
+.lantern_button_container {
+	display:inline-block;
+	position: relative;
+    top: -100px;
+    left: 100px;
 }
 
 .lanternViewBackground{
@@ -270,16 +273,39 @@ button:focus {outline:0;}
     background-size: cover;
 }
 
-#lanternTextField{
-    margin: 0px 0px 0px 0px;
-    position:relative;
-    top: -560px;
-    left: 350px;
-    resize: none;
-    width: 275px;
-    height: 200px;
-    background-color: yellow;
-	  font-family: Arial;
-	  font-size: 28px;
+.post_container {
+	position:absolute;
+	top:10%;
+	left: 35vh;
+    height: 310px;
 }
 
+.login_button.create{
+    /*top: -420px;
+    left: 935px;*/
+    /* margin: -100px 0px 0px 0px; */
+    /* position:fixed; */
+}
+
+#lanternTextField{
+    margin: 0px 0px 0px 0px;
+    padding: 5px;
+    /*position:relative;*/
+    display:inline-block;
+    resize: none;
+    width: 290px;
+    height: 100%;
+    background-color: yellow;
+	font-family: Arial;
+	font-size: 28px;
+	border:none;
+	background-image: url("../images/lantern-background.png");
+	background-size: 100% 100%;
+}
+
+
+@media screen and (max-width: 870px) {
+	.post_container {
+		left: 5vh;
+	}
+}

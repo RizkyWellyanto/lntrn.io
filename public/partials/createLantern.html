@@ -1,12 +1,15 @@
 <div class="lanternViewBackground">
 		<div class="title_container lanternTitle">
-			<div class="title create">
+			<div class="create title">
 				Create Lantern
 			</div>
 		</div>
 </div>
-
-<button ng-click="addPost()" class="login_button create">Post</button>
-<button ng-click="" class="login_button create">Back</button>
-<textarea id="lanternTextField" ng-model="postText"></textarea> 
+<div class="post_container">
+	<textarea id="lanternTextField" ng-model="postText"></textarea> 
+	<div class="lantern_button_container">
+		<button ng-click="addPost()" class="login_button create">Post</button>
+		<a href="#/main" class="login_button create">Back</a>
+	</div>
+</div>
 <!-- <div contenteditable="true" class="validate[required,length[6, 300]] feedback-input" id="lanternTextField" ng-model="postText"></div> -->

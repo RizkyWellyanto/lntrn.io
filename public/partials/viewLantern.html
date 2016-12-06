@@ -1,15 +1,14 @@
-<div class="lanternBackground">
-	<div class="content_wrapper">
-		<div class="title_container">
-			<div class="title">
-				Create Lantern
+<div class="lanternViewBackground">
+		<div class="title_container lanternTitle">
+			<div class="create title">
+				View Lantern
 			</div>
 		</div>
-		<div class="login_wrapper">
-			<div>
-				<button ng-click="load_login_modal()" class="login_button">Login/Create</button>
-			</div>
-			<button class="login_button">Continue as Guest</button>
-		</div>
+</div>
+<div class="post_container">
+	<textarea id="lanternTextField" ng-model="postText" readonly></textarea> 
+	<div class="lantern_button_container">
+		<a ng-click="$close()" class="login_button create">Back</a>
 	</div>
 </div>
+<!-- <div contenteditable="true" class="validate[required,length[6, 300]] feedback-input" id="lanternTextField" ng-model="postText"></div> -->

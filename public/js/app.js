@@ -14,7 +14,7 @@ app.config(["$routeProvider", function($routeProvider) {
 	    templateUrl: 'partials/createLantern.html',
 	    controller: "createLanternController"
 	}).
-	when('/viewLantern', {
+	when('/viewLantern/:lanternId', {
 		templateUrl: 'partials/viewLantern.html',
 		controller: "viewLanternController"
 	}).
