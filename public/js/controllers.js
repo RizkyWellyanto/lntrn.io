@@ -30,7 +30,12 @@ var SVG_lantern = '\
         c9.9,0,17.4,3.6,17.4,8.3c0,0.1,0,0.2,0,0.2c2-3.6,10.9-33.1,11.9-42.7C63.3,9.3,34.2,0,26.4,0z"/>\
     </svg>';
 
-lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($scope, Popeye) {
+lntrnioControllers.controller("loginController", ['$scope', '$window', 'AuthServices', 'Popeye', function($scope, $window, AuthServices, Popeye) {
+	if (AuthServices.getUserId()) {
+		console.log("User is already logged in");
+		$window.location.href = "#/main";
+	}
+	else console.log("AuthServices.userid=", AuthServices.getUserId());
 	$scope.load_login_modal = function() {
 		console.log("loading Modal");
 		var modal = Popeye.openModal({
@@ -41,7 +46,7 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
 	}
 }]);
 
-lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthServices", function($scope, User, AuthServices) {
+lntrnioControllers.controller("loginModalController", ["$scope", "$window", "User", "AuthServices", function($scope, $window, User, AuthServices) {
 	$scope.isLogin = true;
 	$scope.email = "";
 	$scope.password = "";
@@ -77,6 +82,8 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthSe
 			console.log("login result", res);
 			$scope.error_msg = "";
 			AuthServices.setUserId(res.data._id);
+			$scope.$close();
+			$window.location.href = "#/main";
 		}).error(function(res) {
 			$scope.error_msg = res.message || "Couldn't validate user";
 		});
@@ -101,7 +108,7 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthSe
 	};
 }]);
 
-lntrnioControllers.controller("mainController", ["$scope", "Posts", "User", "AuthServices", function($scope, Posts, User, AuthServices) {
+lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "User", "AuthServices", function($scope, $window, Posts, User, AuthServices) {
 	// TODO:
 	// automatic GET request with updated parameters of list of lantern IDs to exclude
 	// update request everytime a user reads a lantern to store it in their history (jsut append)
@@ -109,6 +116,18 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", "User", "Aut
 	$scope.desired = 5; // desired number of posts. may differ from 'recvd' number of posts
 	$scope.history = []; // array of posts read so far. needs at least one element so it doesn't blow up.
 	$scope.request = {read: $scope.history, qty: $scope.desired};
+
+	$scope.logout = function() {
+		User.logout()
+			.success(function(res) {
+				console.log("User logged out successfully", res);
+				AuthServices.setUserId(null);
+				$window.location.href ="#/login";
+			})
+			.error(function(res){
+				console.log("Failed", res);
+			});
+	}
 
 	// lantern create
 	$scope.lantern = function(post) {
