@@ -43,28 +43,10 @@ lntrnioServices.factory("AuthServices", function() {
 		getUserId : function() {
 			return userId;
 		},
-<<<<<<< HEAD
-      // post: function(postText, UserId) {
-    addPost: function(postText) {
-        // console.log("adding post");
-        var postData = {
-            "postText" : postText
-        };
-        console.log("postText: ", postText);
-        return $http({
-            method: 'POST', 
-            url: "./api/posts",
-            data: $.param(postData),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-          }); 
-    }
-	};
-=======
 		setUserId : function(value) {
 			userId = value;
 		}
 	}
->>>>>>> d51a5ffa5b575d03daaff325d55be9fe9378950e
 });
 
 lntrnioServices.factory("AuthServices", function(){
