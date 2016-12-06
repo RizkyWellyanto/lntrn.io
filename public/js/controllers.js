@@ -131,18 +131,20 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 
 	// lantern create
 	$scope.lantern = function(post) {
-		var xpos = parseInt(Math.random() * ($(window).width() - 124) + 62);
-		var ypos = parseInt(Math.random() * ($(window).height() - 136) + 68);
+		var xperc = Math.random() * .8 + .1;
+		var yperc = Math.random() * .5;
+
+		// var xpos = parseInt(xperc * ($(window).width() - 124) + 62);
+		// var ypos = parseInt(yperc * ($(window).height() - 136) + 68);
 
 		// create the lantern div
 		var lant = document.createElement("a");
 		lant.innerHTML = SVG_lantern;
 		lant.style.position = "absolute";
-		lant.style.left = xpos + 'px';
-		lant.style.top = ypos + 'px';
+		lant.style.left = 100*xperc + 'vw';
+		lant.style.top = 100*yperc + 'vh';
 		lant.classList.add("box");
 		lant.setAttribute("ng-click", "$(this).attr(filter, url(#darken)); " + "history.push(" + post._id + ")");
-
 
 		// TweenMax flicker effect
 		TweenMax.staggerTo('.flicker', 2.8, {
