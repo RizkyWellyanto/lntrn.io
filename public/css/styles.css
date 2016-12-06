@@ -187,10 +187,13 @@ button:focus {outline:0;}
 #mainPage {
 	background-image: url("../images/night-sky.jpg");
 	background-size: 100% 100%;
+	height: 100vh;
 }
 
 .logoutbutton {
 	cursor: pointer;
+	color:white;
+	font-family: Arial;
 }
 
 .topright {
