@@ -41,7 +41,7 @@ lntrnioControllers.controller("loginController", ['$scope', 'Popeye', function($
     }
 }]);
 
-lntrnioControllers.controller("loginModalController", ["$scope", "User", function($scope, User) {
+lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthService", function($scope, User) {
 	$scope.isLogin = true;
 	$scope.email = "";
 	$scope.password = "";
@@ -76,6 +76,7 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", functio
 		User.login($scope.email, $scope.password).success(function(res) {
 			console.log("login result", res);
 			$scope.error_msg = "";
+            AuthService.setUserId(res.data._id);
 		}).error(function(res) {
 			$scope.error_msg = res.message || "Couldn't validate user";
 		});
@@ -145,13 +146,11 @@ lntrnioControllers.controller("mainController", ["$scope", function($scope) {
 
 }]);
 
-lntrnioControllers.controller("createLanternController", ["$scope", "Posts", function($scope, Posts) {
+lntrnioControllers.controller("createLanternController", ["$scope", "Posts", "AuthService" function($scope, Posts) {
     console.log("createLanternController");
     $scope.addPost = function(){
         // console.log("hi");
         console.log("$scope.postText", $scope.postText);
-        $scope.password = "";
-        // console.log("why not?");
 		    Posts.addPost($scope.postText).success(function(res) {
 			      console.log("Post Added", res);
 			      $scope.error_msg = "";

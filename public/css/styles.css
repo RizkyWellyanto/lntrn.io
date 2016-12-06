@@ -159,10 +159,13 @@ button:focus {outline:0;}
     left: 935px;
     /* margin: -100px 0px 0px 0px; */
     /* position:fixed; */
+<<<<<<< HEAD
 }
 
 .login_button.create:active{
 	background-color: #333399;
+=======
+>>>>>>> 4012a274e48086e6f60f945350deafaad1531507
 }
 
 .title.lanternView{

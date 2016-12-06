@@ -111,6 +111,7 @@ module.exports = function (router) {
                 res.status(200);
                 res.send({
                     'message': 'User logged in'
+                    'data':req.user
                 });
             })
         .options(function(req, res) {
