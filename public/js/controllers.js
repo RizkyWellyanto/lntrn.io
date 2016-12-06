@@ -79,7 +79,6 @@ lntrnioControllers.controller("loginModalController", ["$scope", "User", "AuthSe
 			AuthServices.setUserId(res.data._id);
 		}).error(function(res) {
 			$scope.error_msg = res.message || "Couldn't validate user";
-			AuthServices.setUserId("");
 		});
 	};
 
@@ -162,17 +161,10 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", "User", "Aut
 				$scope.history.push(post._id);
 
 				console.log(AuthServices.getUserId());
-				User.update({_id: AuthServices.getUserId(), history: $scope.history}).success(function(res) {
-					console.log(res);
-				}).error(function(err) {
-					console.log("error");
-					console.log(err);
-				});
 
-				// check if all lanterns have been clicked yet. if so, return more lanterns
+			// 	// check if all lanterns have been clicked yet. if so, return more lanterns
 				if ($scope.history.length === $scope.recvd) {
 					console.log("ayy");
-
 				}
 			}
 		});
@@ -191,13 +183,6 @@ lntrnioControllers.controller("mainController", ["$scope", "Posts", "User", "Aut
 			console.log(err);
 		});
 	};
-
-	User.getUser(AuthServices.getUserId()).success(function(res) {
-		$scope.user = res.data;
-	}).error(function(err) {
-		console.log(err);
-	});
-
 
 	// always call on first page load to populate with lanterns
 	$scope.acquire($scope.request);
