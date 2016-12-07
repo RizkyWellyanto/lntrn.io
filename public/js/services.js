@@ -35,7 +35,13 @@ lntrnioServices.factory("User", function($http) {
         },
         update : function(updatedUser) {
             console.log(updatedUser);
-			return $http.put("./api/user/", {params: $.param(updatedUser)});
+			//return $http.put("./api/user/", {data: $.param(updatedUser)});
+			return $http({
+				method: 'PUT',
+				url: "./api/user",
+				data: $.param(updatedUser),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			});
             // return $http({
 			// 	method: 'PUT',
 			// 	url: "./api/user",

@@ -3,6 +3,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var secrets = require('../config/secrets');
 var FacebookStrategy = require('passport-facebook').Strategy;
+var ObjectID = require("mongodb").ObjectID;
 
 module.exports = function (router) {
 
@@ -206,11 +207,10 @@ module.exports = function (router) {
         .put(isLoggedIn, function(req, res){
             console.log("updated user?");
             console.log(req.body);
-            console.log(req.query);
-            console.log(req.params);
-            console.log(req.data);
-            console.log(req.user);
-            // User.findByIdAndUpdate()
+            User.findByIdAndUpdate(ObjectID(req.body._id), req.body, function(err, res) {
+                console.log("Error is", err);
+                console.log("Response is", res);
+            });
             // TODO you can do the user updating here, although this endpoint should be unnecessary
         });
 
