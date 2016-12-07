@@ -333,6 +333,30 @@ button:focus {outline:0;}
 	background-size: 100% 100%;
 }
 
+.deleteButton {
+	padding: 10px;
+	border: 5px;
+	background-color: red;
+	font-family: Arial;
+	color: white;
+}
+
+.postText {
+	font-family: Arial;
+	color: white;
+}
+
+.previousLanterns {
+	width: 100vw;
+	height: 100vh;
+	background-image: url("../images/lntrio.jpg");
+	background-size: 100% 100%;
+
+}
+
+.inline {
+	display: inline-block;
+}
 
 @media screen and (max-width: 870px) {
 	.post_container {

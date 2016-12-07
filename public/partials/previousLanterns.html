@@ -1,0 +1,6 @@
+<div class="previousLanterns">
+    <div ng-repeat="p in posts" ng-show="showPost">
+        <a class="inline deleteButton" ng-click="showPost = !showPost; delete(p._id)">Delete</a>
+        <h2 class="inline">{{p.text}}</h2>
+    </div>
+</div>

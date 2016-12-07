@@ -18,6 +18,13 @@ module.exports.deletePostById = function (id, callback) {
     Post.remove(query, callback);
 };
 
+module.exports.getMatchingPosts = function(config, callback) {
+    console.log(config);
+    var ids = typeof config === 'object' ? config.ids.map(function(id) {return ObjectId(id);}) : [];
+
+    Post.find({_id: {$in: ids}}, callback);
+}
+
 module.exports.getRandomPosts = function (config, callback) {
     // pre-processing to make sure a string array and int are passed to mongo
     // default empty list, else convert to ObjectId of the string or the array

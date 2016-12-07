@@ -35,7 +35,13 @@ lntrnioServices.factory("User", function($http) {
         },
         update : function(updatedUser) {
             console.log(updatedUser);
-            return $http.put("./api/user/" + updatedUser._id, {history: updatedUser.history});
+			return $http.put("./api/user/", {params: $.param(updatedUser)});
+            // return $http({
+			// 	method: 'PUT',
+			// 	url: "./api/user",
+			// 	data: $.param(updatedUser.posts),
+			// 	headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			// });
         }
 	}
 });
@@ -58,7 +64,10 @@ lntrnioServices.factory("Posts", function($http) {
         },
         getOne: function(id) {
         	return $http.get("./api/post/"+id);
-        }
+        },
+		delete : function(id) {
+			return $http.delete("./api/post/" + id);
+		}
 	}
 });
 
