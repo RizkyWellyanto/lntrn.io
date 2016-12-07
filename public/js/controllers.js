@@ -107,9 +107,10 @@ lntrnioControllers.controller("loginModalController", ["$scope", "$window", "Use
 			.success(function(res) {
 				console.log("signup result", res);
 				$scope.error_msg = "";
-				AuthServices.setUserId(res.data._id);
-				$scope.$close();
-				$window.location.href = "#/main";
+				// AuthServices.setUserId(res.data._id);
+				// $scope.$close();
+				// $window.location.href = "#/main";
+				$scope.doLogin();
 			}).error(function(res) {
 				$scope.error_msg = res.message;
 			});
@@ -161,7 +162,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 		var lant = document.createElement("a");
 		lant.innerHTML = SVG_lantern;
 		lant.style.position = "absolute";
-		lant.style.left = 100*xperc + 'vw';
+		lant.style.left = "110vw";//100*xperc + 'vw';
 		lant.style.top = 100*yperc + 'vh';
 		lant.classList.add("box");
 		lant.setAttribute("ng-click", "$(this).attr(filter, url(#darken));");
@@ -190,6 +191,10 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 		// append it
 		$("#mainPage").append(lant);
 
+		$(lant).animate({
+			left: 100*xperc + "vw"
+		}, 3500);
+
 		// lantern click -> dim and post display (change to view partial)
 		lant.addEventListener("click", function(t) {
 			$window.displayPostId = post._id;
@@ -203,7 +208,6 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 
 				// check if all lanterns have been clicked yet. if so, return more lanterns
 				if ($scope.history.length === $scope.lastLength + $scope.recvd) {
-					$(".box").remove();
 					$scope.lastLength = $scope.history.length;
 					$scope.acquire($scope.request);
 				}
@@ -217,6 +221,12 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 		Posts.get(request).success(function (res) {
 			$scope.posts = res.data;
 			$scope.recvd = $scope.posts.length;
+			var oldBoxes = $(".box");
+			oldBoxes.animate({
+				left: "-10vw"
+			}, 3500, function() {
+				oldBoxes.remove();
+			});
 			for (var i = 0; i < $scope.recvd; i++) {
 				$scope.lantern($scope.posts[i]);
 			}
