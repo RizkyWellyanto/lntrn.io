@@ -3,6 +3,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var secrets = require('../config/secrets');
 var FacebookStrategy = require('passport-facebook').Strategy;
+var ObjectID = require("mongodb").ObjectID;
 
 module.exports = function (router) {
 
@@ -47,7 +48,8 @@ module.exports = function (router) {
                             if (err) throw err;
                             res.status(201);
                             res.send({
-                                'message': 'User created!'
+                                'message': 'User created!',
+                                'data': user
                             });
                         });
                     }
@@ -203,6 +205,12 @@ module.exports = function (router) {
             });
         })
         .put(isLoggedIn, function(req, res){
+            console.log("updated user?");
+            console.log(req.body);
+            User.findByIdAndUpdate(ObjectID(req.body._id), req.body, function(err, res) {
+                console.log("Error is", err);
+                console.log("Response is", res);
+            });
             // TODO you can do the user updating here, although this endpoint should be unnecessary
         });
 
