@@ -162,7 +162,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 		var lant = document.createElement("a");
 		lant.innerHTML = SVG_lantern;
 		lant.style.position = "absolute";
-		lant.style.left = "110vw";//100*xperc + 'vw';
+		lant.style.left = 100+100*xperc + 'vw';
 		lant.style.top = 100*yperc + 'vh';
 		lant.classList.add("box");
 		lant.setAttribute("ng-click", "$(this).attr(filter, url(#darken));");
@@ -223,7 +223,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 			$scope.recvd = $scope.posts.length;
 			var oldBoxes = $(".box");
 			oldBoxes.animate({
-				left: "-10vw"
+				left: "-100vw"
 			}, 3500, function() {
 				oldBoxes.remove();
 			});
