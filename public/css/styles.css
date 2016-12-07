@@ -147,7 +147,7 @@ button:focus {outline:0;}
 }
 
 .title {
-	text-align: center;
+	/* text-align: center; */
 	width: 100%;
 	font-family: Arial;
 }
@@ -277,8 +277,8 @@ button:focus {outline:0;}
 
 .create{
     position: relative;
-    top: 10px;
-    left: 50%;
+    top: 10%;
+    left: 87%;
     transform: translateX(-50%);
 }
 
@@ -287,10 +287,12 @@ button:focus {outline:0;}
 }
 
 .lantern_button_container {
-	display:inline-block;
+	/* display:inline-block; */
+	/* position: relative; */
+    /* top: -100px; */
+    /* left: 100px; */
 	position: relative;
-    top: -100px;
-    left: 100px;
+	left: -20px;
 }
 
 .lanternViewBackground{
@@ -305,16 +307,17 @@ button:focus {outline:0;}
 
 .post_container {
 	position:absolute;
-	top:10%;
-	left: 35vh;
-    height: 310px;
+	top: 10%;
+	left: 28%;
+    height: 52%;
 }
 
-.login_button.create{
+.login_button.create_button{
     /*top: -420px;
     left: 935px;*/
     /* margin: -100px 0px 0px 0px; */
-    /* position:fixed; */
+    /* position:relative ; */
+	left: 67%;
 }
 
 #lanternTextField{
@@ -323,7 +326,7 @@ button:focus {outline:0;}
     /*position:relative;*/
     display:inline-block;
     resize: none;
-    width: 290px;
+    width: 120%;
     height: 100%;
     background-color: yellow;
 	font-family: Arial;
@@ -360,6 +363,6 @@ button:focus {outline:0;}
 
 @media screen and (max-width: 870px) {
 	.post_container {
-		left: 5vh;
+		left: 10vh;
 	}
 }
