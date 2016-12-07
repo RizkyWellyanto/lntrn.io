@@ -317,7 +317,7 @@ button:focus {outline:0;}
     left: 935px;*/
     /* margin: -100px 0px 0px 0px; */
     /* position:relative ; */
-	left: 57%;
+	left: 67%;
 }
 
 #lanternTextField{
@@ -326,7 +326,7 @@ button:focus {outline:0;}
     /*position:relative;*/
     display:inline-block;
     resize: none;
-    width: 290px;
+    width: 120%;
     height: 100%;
     background-color: yellow;
 	font-family: Arial;
