@@ -284,10 +284,7 @@ lntrnioControllers.controller("previousLanternsController", ["$scope", "Posts", 
 			return value != id;
 		});
 
-		console.log("posts is now:");
-		console.log($scope.user.posts);
 		User.update($scope.user);
-
 
 		Posts.delete(id).success(function(res) {
 			console.log("res", res);
