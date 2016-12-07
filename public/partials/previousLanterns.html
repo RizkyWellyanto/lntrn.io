@@ -1,0 +1,11 @@
+<div class="previousLanterns">
+    <div class="middle">
+        <a class="login_button" href="#/main">Back</a>
+        <div class="postsBox">
+            <div class="row" ng-repeat="p in posts" ng-show="showPost">
+                <a class="inline deleteButton" ng-click="showPost = !showPost; delete(p._id)">Delete</a>
+                <h2 class="inline postText">{{p.text}}</h2>
+            </div>
+        </div>
+    </div>
+</div>

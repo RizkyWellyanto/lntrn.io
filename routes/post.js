@@ -5,22 +5,43 @@ module.exports = function (router) {
 
     router.route('/posts')
         .get(function (req, res) {
-            Post.getRandomPosts(req.query, function (err, posts) {
-                if (err || posts.length == 0) {
-                    res.status(400);
-                    res.send({
-                        'message': 'Could not fetch any posts',
-                        'error': err
-                    })
-                }
-                else {
-                    res.status(200);
-                    res.send({
-                        'message': 'OK',
-                        'data': posts
-                    });
-                }
-            })
+            console.log(req.query);
+            var q = req.query;
+
+            if (typeof q.ids != 'undefined') {
+                Post.getMatchingPosts(q, function(err, posts) {
+                    if (err || posts.length == 0) {
+                        res.status(400);
+                        res.send({
+                            'message': 'Could not fetch any posts',
+                            'error': err
+                        })
+                    } else {
+                        res.status(200);
+                        res.send({
+                            'message': 'OK',
+                            'data': posts
+                        })
+                    }
+                });
+            } else {
+                Post.getRandomPosts(req.query, function (err, posts) {
+                    if (err || posts.length == 0) {
+                        res.status(400);
+                        res.send({
+                            'message': 'Could not fetch any posts',
+                            'error': err
+                        })
+                    }
+                    else {
+                        res.status(200);
+                        res.send({
+                            'message': 'OK',
+                            'data': posts
+                        });
+                    }
+                });
+            }
         })
         .post(isLoggedIn,
             function (req, res) {
@@ -34,6 +55,7 @@ module.exports = function (router) {
                         'message': 'Error!',
                         'error': errors
                     });
+                    return;
                 }
 
                 var newPost = new Post();
@@ -136,21 +158,6 @@ module.exports = function (router) {
 
                         user.posts = user.posts.filter(function (post_id) {
                             return post_id !== post._id;
-                        });
-                        user.save(function (err) {
-                            if (err) {
-                                res.status(500);
-                                res.send({
-                                    'message': 'Error while updating user\'s post',
-                                    'error': err
-                                });
-                                return;
-                            }
-
-                            res.status(201);
-                            res.send({
-                                'message': 'Lantern is created!'
-                            });
                         });
                     });
                 });

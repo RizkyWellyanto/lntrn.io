@@ -4,11 +4,10 @@
 <link rel="stylesheet" href="./lib/vex-js/sass/vex.css" />
 <link rel="stylesheet" href="./lib/vex-js/sass/vex-theme-os.css" /> -->
 
-
 <div class="login_background">
 	<div class="content_wrapper">
 		<div class="title_container">
-			<div class="title">
+			<div class="title_login">
 				Lntrn.io
 			</div>
 		</div>
@@ -21,7 +20,9 @@
 				<a href="http://fa16-cs498rk-067.cs.illinois.edu:8080/api/auth/facebook" style="color: white; text-decoration: none">Facebook</a>
 			</div>
 
-			<button class="login_button">Continue as Guest</button>
+			<button ng-click="skip_login()" class="login_button">
+				Continue as Guest
+			</button>
 		</div>
 	</div>
 </div>

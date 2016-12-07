@@ -18,6 +18,19 @@ module.exports.deletePostById = function (id, callback) {
     Post.remove(query, callback);
 };
 
+module.exports.getMatchingPosts = function(config, callback) {
+    console.log(config);
+    var ids = []
+    if (typeof config.ids == "string") {
+        config.ids = [ObjectId(config.ids)];
+    }
+    if (typeof config === 'object' && config.ids) {
+        var ids = typeof config === 'object' ? config.ids.map(function(id) {return ObjectId(id);}) : [];
+    }
+
+    Post.find({_id: {$in: ids}}, callback);
+}
+
 module.exports.getRandomPosts = function (config, callback) {
     // pre-processing to make sure a string array and int are passed to mongo
     // default empty list, else convert to ObjectId of the string or the array
@@ -28,7 +41,19 @@ module.exports.getRandomPosts = function (config, callback) {
         read = config.read.map(function(id) {return ObjectId(id);});
 
     var quantity = parseInt(config.qty);
+    if (!quantity) {
+        read = [];
+        quantity = 50;
+    }
 
     // Mongo aggregate call. Gets posts that have not been read in the array config.qty and returns a random set ($sample) of size config.qty
     Post.aggregate([{$match: {_id: {$nin: read}}}, {$sample: {size: quantity}}], callback);
+};
+
+module.exports.getUserHistory = function(config, callback) {
+  Post.find(config, callback);
+};
+
+module.exports.getUserPosts = function(config, callback) {
+
 };

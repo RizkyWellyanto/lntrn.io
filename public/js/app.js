@@ -14,9 +14,13 @@ app.config(["$routeProvider", function($routeProvider) {
 	    templateUrl: 'partials/createLantern.html',
 	    controller: "createLanternController"
 	}).
-	when('/viewLantern', {
+	when('/viewLantern/:lanternId', {
 		templateUrl: 'partials/viewLantern.html',
 		controller: "viewLanternController"
+	}).
+	when('/previousLanterns', {
+		templateUrl: 'partials/previousLanterns.html',
+		controller: 'previousLanternsController'
 	}).
 	otherwise({
 		redirectTo: '/login'

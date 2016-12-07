@@ -47,7 +47,11 @@ table {
 body {
 	background-color: dimgray;
 	height:100%;
+	overflow-x: hidden;
+	position: relative;
 }
+
+html, body { min-height: 100%; }
 
 button:focus {outline:0;}
 
@@ -55,8 +59,6 @@ button:focus {outline:0;}
 	margin: 0 auto;
 	max-width: 640px;
 	position:relative;
-	height:90%;
-	padding-top: 5%;
 	overflow: hidden;
 }
 
@@ -70,6 +72,11 @@ button:focus {outline:0;}
 	display: block;
 	border-radius: 5px;
 	text-align: center;
+}
+
+.loading-text {
+	font-size: 48px;
+	color: white;
 }
 
 .login_background {
@@ -93,6 +100,7 @@ button:focus {outline:0;}
 	font-family: Arial;
 	margin: 10px 0;
 	text-align: center;
+	text-decoration: none;
 }
 
 .login_description {
@@ -141,9 +149,16 @@ button:focus {outline:0;}
 }
 
 .title {
-	text-align: center;
+	/* text-align: center; */
 	width: 100%;
 	font-family: Arial;
+}
+
+.title_login {
+	text-align: center; 
+	width: 100%;
+	font-family: Arial;
+	margin-top: 5%;
 }
 
 .title_container {
@@ -151,23 +166,6 @@ button:focus {outline:0;}
 	width: 100%;
 	color:white;
 	font-size: 96px;
-}
-
-.login_button.create{
-    position: relative;
-    top: -295px;
-    left: 935px;
-    margin: 0px 0px 10px 0px;
-}
-
-
-.lanternViewBackground{
-    width: 100%;
-    height: 100%;
-    /* background-image: url("../images/rectangular_lanterns.png"); */
-    background-image: url("../images/rectangular_lanterns.resized.png");
-    background-size: 100% 100%;
-    /* background-size: cover; */
 }
 
 .title.lanternView{
@@ -181,12 +179,6 @@ button:focus {outline:0;}
     /* width: 100%; */
 }
 
-.login_button.create {
-	position: relative;
-	top: -295px;
-	left: 935px;
-	margin: 0px 0px 10px 0px;
-}
 /*Overrides for Popeye*/
 .popeye-modal {
 	padding: 0 !important;
@@ -195,6 +187,49 @@ button:focus {outline:0;}
 
 .popeye-close-modal {
 	display: none !important;
+}
+
+.popeye-modal-container {
+	background-color: rgba(255, 255, 255, .3) !important;
+}
+
+/* Overrides for please-wait */
+.pg-loading-logo-header {
+	display: none !important;
+}
+
+.pg-loading-screen {
+	background-image: url(../images/login_lanterns.jpg) !important;
+	background-size: 100% 100%;
+}
+
+/* main page */
+#mainPage {
+	background-image: url("../images/lntrio.jpg");
+	background-size: 100% 100%;
+	height: 100vh;
+	position: relative;
+}
+
+.logoutbutton {
+	cursor: pointer;
+	color:white;
+	font-family: Arial;
+	text-decoration: none;
+}
+
+.topright {
+	position:absolute;
+	top:0;
+	right:0;
+	padding: 10px;
+}
+
+.topleft {
+	position:absolute;
+	top:0;
+	left:0;
+	padding: 10px;
 }
 
 /* LANTERN CSS CODE */
@@ -235,7 +270,168 @@ button:focus {outline:0;}
 
 /* BOAT CSS CODE */
 #boat {
+	/*display: block;*/
+	/*margin: auto;*/
+	position: absolute;
+
+	width: 26%;
+	height: 25%;
+	
+	bottom: 9%;
+	left: 68.75%;
+	transform: translateX(-50%);
+	-webkit-filter: drop-shadow(0px 0px 20px #cc0);
+	-moz-filter: drop-shadow(0px 0px 20px #cc0);
+	filter: drop-shadow(0px 0px 20px #cc0);
+}
+
+#boat.resize {
+	height: auto;
+}
+
+#boat:hover {
+	-webkit-filter: drop-shadow(0px 0px 20px #55f);
+	-moz-filter: drop-shadow(0px 0px 20px #55f);
+	filter: drop-shadow(0px 0px 20px #55f);
+}
+
+
+/* Lantern Create/View */
+
+.create{
+    position: relative;
+    top: 10%;
+    left: 87%;
+    transform: translateX(-50%);
+}
+
+.title_container.lanternTitle{
+    font-size: 28px;
+}
+
+.lantern_button_container {
+	/* display:inline-block; */
+	/* position: relative; */
+    /* top: -100px; */
+    /* left: 100px; */
+	position: relative;
+	left: -20px;
+}
+
+.lanternViewBackground{
+    width: 100%;
+    height: 100vh;
+    margin: 0px 0px 0px 0px;
+    background-image: url("../images/rectangular_lanterns.jpg");
+    /* background-image: url("../images/rectangular_lanterns.resized.png"); */
+    /* background-size: 100% 100%; */
+    background-size: cover;
+}
+
+.post_container {
+	position:absolute;
+	top: 10%;
+	left: 32%;
+    height: 52%;
+}
+
+.login_button.create_button{
+    /*top: -420px;
+    left: 935px;*/
+    /* margin: -100px 0px 0px 0px; */
+    /* position:relative ; */
+	left: 67%;
+}
+
+#lanternTextField{
+    margin: 0px 0px 0px 0px;
+    padding: 5px;
+    /*position:relative;*/
+    display:inline-block;
+    resize: none;
+    width: 120%;
+    height: 100%;
+    background-color: yellow;
+	font-family: Arial;
+	font-size: 28px;
+	border:none;
+	background-image: url("../images/lantern-background.png");
+	background-size: 100% 100%;
+}
+
+.deleteButton {
+	padding: 10px;
+	border: 5px;
+	border-radius: 10px;
+	background-color: darkcyan;
+	font-family: Arial;
+	color: white;
+}
+
+.postText {
+	color: white;
+}
+
+
+.middle {
+	font-family: Arial;
+	color: white;
 	display: block;
 	margin: auto;
-	transform: translateY(80%);
+	position: relative;
+	top: 15%;
+	width: 60vw;
+}
+
+.backButton {
+	font-size: 15pt;
+	color: white;
+	text-decoration: none;
+	text-align: center;
+	vertical-align: middle;
+	display: block;
+	margin: auto;
+	width: 100px;
+	height: 40px;
+	padding-top: 20px;
+	position: relative;
+	/*height: 10px;*/
+	border-radius: 5px;
+	background-color: red;
+}
+
+.row {
+	border-radius: 10px;
+	background-color: rgba(13, 31, 102, .8);
+	padding: 5px;
+	margin: 15px;
+}
+
+.postsBox {
+	background-color: rgba(40,40,40,.3);
+	display: block;
+	margin: auto;
+	position: relative;
+	border-radius: 10px;
+	min-height:10vh;
+	top: 10%;
+	/*height: 80vh;*/
+	width: 50vw;
+	padding: 20px;
+}
+.previousLanterns {
+	width: 100vw;
+	height: 100vh;
+	background-image: url("../images/lntrio.jpg");
+	background-size: 100% 100%;
+}
+
+.inline {
+	display: inline-block;
+}
+
+@media screen and (max-width: 870px) {
+	.post_container {
+		left: 10vh;
+	}
 }
