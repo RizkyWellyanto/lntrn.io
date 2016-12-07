@@ -58,7 +58,6 @@ button:focus {outline:0;}
 	max-width: 640px;
 	position:relative;
 	height:90%;
-	padding-top: 5%;
 	overflow: hidden;
 }
 
@@ -158,6 +157,7 @@ button:focus {outline:0;}
 	text-align: center; 
 	width: 100%;
 	font-family: Arial;
+	margin-top: 5%;
 }
 
 .title_container {
@@ -214,6 +214,7 @@ button:focus {outline:0;}
 	cursor: pointer;
 	color:white;
 	font-family: Arial;
+	text-decoration: none;
 }
 
 .topright {

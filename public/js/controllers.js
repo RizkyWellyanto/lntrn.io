@@ -39,8 +39,8 @@ lntrnioControllers.controller("loginController", ['$scope', '$window', "User", '
 
 	User.getUser().success(function(res) {
 		AuthServices.setUserId(res.data._id);
-		$window.location.href = "#/main"
-	})
+		$window.location.href = "#/main";
+	});
 	$scope.load_login_modal = function() {
 		console.log("loading Modal");
 		var modal = Popeye.openModal({
@@ -48,6 +48,9 @@ lntrnioControllers.controller("loginController", ['$scope', '$window', "User", '
 			controller: "loginModalController",
 			modalClass: "demo-modal small"
 		});
+	}
+	$scope.skip_login = function() {
+		$window.location.href = "#/main";
 	}
 }]);
 
@@ -119,6 +122,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 	$scope.history = []; // array of posts read so far. needs at least one element so it doesn't blow up.
 	$scope.lastLength = 0; // number of lanterns before refresh
 	$scope.request = {read: $scope.history, qty: $scope.desired};
+	$scope.isLoggedIn = AuthServices.getUserId();
 
 	$scope.logout = function() {
 		User.logout()
@@ -218,7 +222,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 			oldBoxes.animate({
 				left: "-100vw"
 			}, 3500, function() {
-				oldBoxes.remove();
+
 			});
 			for (var i = 0; i < $scope.recvd; i++) {
 				$scope.lantern($scope.posts[i]);

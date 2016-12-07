@@ -1,6 +1,11 @@
 <div id="mainPage">
 	<div class="topright">
-		<a class="logoutbutton" ng-click="logout()">Log out</a>
+		<a class="logoutbutton" ng-click="logout()" ng-show="isLoggedIn">
+			Log out
+		</a>
+		<a class="logoutbutton" href="#/login" ng-show="!isLoggedIn">
+			Log in
+		</a>
 	</div>
 	<a href="#/createLantern">
 		<img id="boat" src="./images/boat.png">
