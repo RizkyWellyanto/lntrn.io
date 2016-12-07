@@ -204,6 +204,13 @@ module.exports = function (router) {
             });
         })
         .put(isLoggedIn, function(req, res){
+            console.log("updated user?");
+            console.log(req.body);
+            console.log(req.query);
+            console.log(req.params);
+            console.log(req.data);
+            console.log(req.user);
+            // User.findByIdAndUpdate()
             // TODO you can do the user updating here, although this endpoint should be unnecessary
         });
 

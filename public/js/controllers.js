@@ -107,9 +107,6 @@ lntrnioControllers.controller("loginModalController", ["$scope", "$window", "Use
 			.success(function(res) {
 				console.log("signup result", res);
 				$scope.error_msg = "";
-				// AuthServices.setUserId(res.data._id);
-				// $scope.$close();
-				// $window.location.href = "#/main";
 				$scope.doLogin();
 			}).error(function(res) {
 				$scope.error_msg = res.message;
@@ -118,10 +115,6 @@ lntrnioControllers.controller("loginModalController", ["$scope", "$window", "Use
 }]);
 
 lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "User", "Popeye", "AuthServices", function($scope, $window, Posts, User, Popeye, AuthServices) {
-	// TODO:
-	// automatic GET request with updated parameters of list of lantern IDs to exclude
-	// update request everytime a user reads a lantern to store it in their history (jsut append)
-
 	$scope.desired = 5; // desired number of posts. may differ from 'recvd' number of posts
 	$scope.history = []; // array of posts read so far. needs at least one element so it doesn't blow up.
 	$scope.lastLength = 0; // number of lanterns before refresh
@@ -237,14 +230,6 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 
 	// always call on first page load to populate with lanterns
 	$scope.acquire($scope.request);
-
-	// $scope.$watchCollection('history', function(newVal, oldVal) {
-	// 	console.log("what");
-	// 	console.log(newVal);
-	// }, true);
-
-
-
 }]);
 
 
@@ -273,4 +258,41 @@ lntrnioControllers.controller("viewLanternController", ["$scope", "$routeParams"
 	}).error(function() {
 		console.log(error);
 	});
+}]);
+
+lntrnioControllers.controller("previousLanternsController", ["$scope", "Posts", "User", function($scope, Posts, User) {
+	$scope.showPost = true;
+
+	$scope.user = null;
+	User.getUser().then(function(res) {
+		$scope.user = res.data.data;
+		return res.data.data.posts;
+	}).then(function(postIds) {
+		if (postIds.length > 0)
+			return Posts.get({ids: postIds});
+		throw "no posts for user";
+	}).then(function(res) {
+		$scope.posts = res.data.data;
+	}).catch(function(err) {
+		console.log("err", err);
+	});
+
+	$scope.delete = function(id) {
+		// delete from user posts array
+		console.log("going to remove: " + id);
+		$scope.user.posts = jQuery.grep($scope.user.posts, function(value) {
+			return value != id;
+		});
+
+		console.log("posts is now:");
+		console.log($scope.user.posts);
+		User.update($scope.user);
+
+
+		Posts.delete(id).success(function(res) {
+			console.log("res", res);
+		}).error(function(err) {
+			console.log("err", err);
+		});
+	}
 }]);
