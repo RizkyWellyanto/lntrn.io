@@ -159,7 +159,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 		var lant = document.createElement("a");
 		lant.innerHTML = SVG_lantern;
 		lant.style.position = "absolute";
-		lant.style.left = 110 + 'vw';//+100*xperc + 'vw';
+		lant.style.left = 100 + 'vw';//+100*xperc + 'vw';
 		lant.style.top = 100*yperc + 'vh';
 		lant.classList.add("box");
 		lant.setAttribute("ng-click", "$(this).attr(filter, url(#darken));");
