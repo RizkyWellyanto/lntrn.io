@@ -20,7 +20,13 @@ module.exports.deletePostById = function (id, callback) {
 
 module.exports.getMatchingPosts = function(config, callback) {
     console.log(config);
-    var ids = typeof config === 'object' ? config.ids.map(function(id) {return ObjectId(id);}) : [];
+    var ids = []
+    if (typeof config.ids == "string") {
+        config.ids = [ObjectId(config.ids)];
+    }
+    if (typeof config === 'object' && config.ids) {
+        var ids = typeof config === 'object' ? config.ids.map(function(id) {return ObjectId(id);}) : [];
+    }
 
     Post.find({_id: {$in: ids}}, callback);
 }

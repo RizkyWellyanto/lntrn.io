@@ -39,8 +39,8 @@ lntrnioControllers.controller("loginController", ['$scope', '$window', "User", '
 
 	User.getUser().success(function(res) {
 		AuthServices.setUserId(res.data._id);
-		$window.location.href = "#/main"
-	})
+		$window.location.href = "#/main";
+	});
 	$scope.load_login_modal = function() {
 		console.log("loading Modal");
 		var modal = Popeye.openModal({
@@ -48,6 +48,9 @@ lntrnioControllers.controller("loginController", ['$scope', '$window', "User", '
 			controller: "loginModalController",
 			modalClass: "demo-modal small"
 		});
+	}
+	$scope.skip_login = function() {
+		$window.location.href = "#/main";
 	}
 }]);
 
@@ -119,6 +122,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 	$scope.history = []; // array of posts read so far. needs at least one element so it doesn't blow up.
 	$scope.lastLength = 0; // number of lanterns before refresh
 	$scope.request = {read: $scope.history, qty: $scope.desired};
+	$scope.isLoggedIn = AuthServices.getUserId();
 
 	$scope.logout = function() {
 		User.logout()
@@ -155,7 +159,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 		var lant = document.createElement("a");
 		lant.innerHTML = SVG_lantern;
 		lant.style.position = "absolute";
-		lant.style.left = 100+100*xperc + 'vw';
+		lant.style.left = 100 + 'vw';//+100*xperc + 'vw';
 		lant.style.top = 100*yperc + 'vh';
 		lant.classList.add("box");
 		lant.setAttribute("ng-click", "$(this).attr(filter, url(#darken));");
@@ -218,7 +222,7 @@ lntrnioControllers.controller("mainController", ["$scope", "$window", "Posts", "
 			oldBoxes.animate({
 				left: "-100vw"
 			}, 3500, function() {
-				oldBoxes.remove();
+
 			});
 			for (var i = 0; i < $scope.recvd; i++) {
 				$scope.lantern($scope.posts[i]);
@@ -284,10 +288,7 @@ lntrnioControllers.controller("previousLanternsController", ["$scope", "Posts", 
 			return value != id;
 		});
 
-		console.log("posts is now:");
-		console.log($scope.user.posts);
 		User.update($scope.user);
-
 
 		Posts.delete(id).success(function(res) {
 			console.log("res", res);

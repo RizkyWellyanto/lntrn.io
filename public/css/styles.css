@@ -51,14 +51,14 @@ body {
 	position: relative;
 }
 
+html, body { min-height: 100%; }
+
 button:focus {outline:0;}
 
 .content_wrapper {
 	margin: 0 auto;
 	max-width: 640px;
 	position:relative;
-	height:90%;
-	padding-top: 5%;
 	overflow: hidden;
 }
 
@@ -158,6 +158,7 @@ button:focus {outline:0;}
 	text-align: center; 
 	width: 100%;
 	font-family: Arial;
+	margin-top: 5%;
 }
 
 .title_container {
@@ -214,12 +215,20 @@ button:focus {outline:0;}
 	cursor: pointer;
 	color:white;
 	font-family: Arial;
+	text-decoration: none;
 }
 
 .topright {
 	position:absolute;
 	top:0;
 	right:0;
+	padding: 10px;
+}
+
+.topleft {
+	position:absolute;
+	top:0;
+	left:0;
 	padding: 10px;
 }
 
@@ -271,6 +280,9 @@ button:focus {outline:0;}
 	bottom: 9%;
 	left: 68.75%;
 	transform: translateX(-50%);
+	-webkit-filter: drop-shadow(0px 0px 20px #cc0);
+	-moz-filter: drop-shadow(0px 0px 20px #cc0);
+	filter: drop-shadow(0px 0px 20px #cc0);
 }
 
 #boat.resize {
@@ -278,9 +290,9 @@ button:focus {outline:0;}
 }
 
 #boat:hover {
-	-webkit-filter: drop-shadow(0px 0px 20px #0000ff);
-	-moz-filter: drop-shadow(0px 0px 20px #0000ff);
-	filter: drop-shadow(0px 0px 20px #0000ff);
+	-webkit-filter: drop-shadow(0px 0px 20px #55f);
+	-moz-filter: drop-shadow(0px 0px 20px #55f);
+	filter: drop-shadow(0px 0px 20px #55f);
 }
 
 
@@ -350,22 +362,68 @@ button:focus {outline:0;}
 .deleteButton {
 	padding: 10px;
 	border: 5px;
-	background-color: red;
+	border-radius: 10px;
+	background-color: darkcyan;
 	font-family: Arial;
 	color: white;
 }
 
 .postText {
-	font-family: Arial;
 	color: white;
 }
 
+
+.middle {
+	font-family: Arial;
+	color: white;
+	display: block;
+	margin: auto;
+	position: relative;
+	top: 15%;
+	width: 60vw;
+}
+
+.backButton {
+	font-size: 15pt;
+	color: white;
+	text-decoration: none;
+	text-align: center;
+	vertical-align: middle;
+	display: block;
+	margin: auto;
+	width: 100px;
+	height: 40px;
+	padding-top: 20px;
+	position: relative;
+	/*height: 10px;*/
+	border-radius: 5px;
+	background-color: red;
+}
+
+.row {
+	border-radius: 10px;
+	background-color: rgba(13, 31, 102, .8);
+	padding: 5px;
+	margin: 15px;
+}
+
+.postsBox {
+	background-color: rgba(40,40,40,.3);
+	display: block;
+	margin: auto;
+	position: relative;
+	border-radius: 10px;
+	min-height:10vh;
+	top: 10%;
+	/*height: 80vh;*/
+	width: 50vw;
+	padding: 20px;
+}
 .previousLanterns {
 	width: 100vw;
 	height: 100vh;
 	background-image: url("../images/lntrio.jpg");
 	background-size: 100% 100%;
-
 }
 
 .inline {
